@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id="@+id/bottom_nav_first"
+    android:title="Makaleler"
+    android:icon="@drawable/articles"/>
+
+    <item
+    android:id="@+id/bottom_nav_second"
+    android:title="Videolar"
+    android:icon="@drawable/videos"/>
+
+    <item
+    android:id="@+id/bottom_nav_third"
+    android:title="Kaydedilenler"
+    android:icon="@drawable/bookmark"/>
+
+    <item
+    android:id="@+id/bottom_nav_fourth"
+    android:title="Profil"
+   android:icon="@drawable/user"/>
+
+</menu>
