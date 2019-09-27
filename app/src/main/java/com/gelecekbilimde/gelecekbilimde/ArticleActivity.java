@@ -94,7 +94,10 @@ public class ArticleActivity extends AppCompatActivity {
                         intent = new Intent(ArticleActivity.this, VideoActivity.class);
                         startActivity(intent);
                         break;
-
+                    case R.id.bottom_nav_third:
+                        intent = new Intent(ArticleActivity.this, BookmarkActivity.class);
+                        startActivity(intent);
+                        break;
                 }
                 return false;
             }
