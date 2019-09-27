@@ -10,25 +10,26 @@
         android:layout_height="306dp"
         android:padding="4dp">
 
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
-                android:layout_height="199dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="4dp"
-                app:srcCompat="@color/colorAccent"
-                />
 
+        <com.github.siyamed.shapeimageview.RoundedImageView
+            android:id="@+id/video_thumbnail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/video"
+            app:siRadius="20dp" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/video_publisher_logo"
             android:layout_width="68dp"
             android:layout_height="81dp"
             android:layout_alignParentStart="true"
@@ -40,7 +41,7 @@
             app:srcCompat="@drawable/gelecekbilimdelogo" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/video_title"
             android:textColor="@android:color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +55,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/video_date"
             android:textColor="@android:color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,7 +68,7 @@
             android:text="11.03.1999" />
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/video_bookmark_logo"
             android:layout_width="56dp"
             android:layout_height="50dp"
             android:layout_alignParentTop="true"

@@ -1,5 +1,6 @@
 package com.gelecekbilimde.gelecekbilimde;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -78,6 +80,28 @@ public class ArticleActivity extends AppCompatActivity {
     private void setUpBottomNavigationBar() {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED);
+
+        bottomNavigationView.setSelectedItemId(R.id.bottom_nav_first);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                Intent intent;
+                switch (menuItem.getItemId()){
+                    case R.id.bottom_nav_first:
+                        break;
+                    case R.id.bottom_nav_second:
+                        intent = new Intent(ArticleActivity.this, VideoActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.bottom_nav_third:
+                        intent = new Intent(ArticleActivity.this, BookmarkActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
