@@ -9,13 +9,15 @@ public class ArticleModel {
     private String articleHeadline;
     private String articleDescription;
     private String articleDate;
+    private boolean isBookmarked;
 
-    public ArticleModel(int articleImage, int articleBookmark, String articleHeadline, String articleDescription, String articleDate) {
+    public ArticleModel(int articleImage, int articleBookmark, String articleHeadline, String articleDescription, String articleDate, boolean isBookmarked) {
         this.articleImage = articleImage;
         this.articleBookmark = articleBookmark;
         this.articleHeadline = articleHeadline;
         this.articleDescription = articleDescription;
         this.articleDate = articleDate;
+        this.isBookmarked = isBookmarked;
     }
 
     public int getArticleImage() {
@@ -56,5 +58,13 @@ public class ArticleModel {
 
     public void setArticleDate(String articleDate) {
         this.articleDate = articleDate;
+    }
+
+    public boolean getIsBookmarked() {
+        return isBookmarked;
+    }
+
+    public void setIsBookmarked(boolean bookmarked) {
+        isBookmarked = bookmarked;
     }
 }

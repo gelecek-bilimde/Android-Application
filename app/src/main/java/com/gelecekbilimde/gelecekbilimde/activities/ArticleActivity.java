@@ -1,7 +1,6 @@
-package com.gelecekbilimde.gelecekbilimde;
+package com.gelecekbilimde.gelecekbilimde.activities;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -16,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.gelecekbilimde.gelecekbilimde.R;
 import com.gelecekbilimde.gelecekbilimde.adapters.ArticleAdapter;
 import com.gelecekbilimde.gelecekbilimde.models.ArticleModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -37,16 +37,16 @@ public class ArticleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_article);
 
         ArrayList<ArticleModel> articles = new ArrayList<>();
-        articles.add(new ArticleModel(R.drawable.user, R.drawable.bookmark,"Headline1" ,"desc1", "11.03.1999"));
-        articles.add(new ArticleModel(R.drawable.user, R.drawable.bookmark,"Headline2" ,"desc2", "12.03.1999"));
-        articles.add(new ArticleModel(R.drawable.user, R.drawable.bookmark,"Headline3" ,"desc3", "13.03.1999"));
-        articles.add(new ArticleModel(R.drawable.user, R.drawable.bookmark,"Headline4" ,"desc4", "14.03.1999"));
-        articles.add(new ArticleModel(R.drawable.user, R.drawable.bookmark,"Headline4" ,"desc4", "14.03.1999"));
-        articles.add(new ArticleModel(R.drawable.user, R.drawable.bookmark,"Headline4" ,"desc4", "14.03.1999"));
-        articles.add(new ArticleModel(R.drawable.user, R.drawable.bookmark,"Headline4" ,"desc4", "14.03.1999"));
-        articles.add(new ArticleModel(R.drawable.user, R.drawable.bookmark,"Headline4" ,"desc4", "14.03.1999"));
-        articles.add(new ArticleModel(R.drawable.user, R.drawable.bookmark,"Headline4" ,"desc4", "14.03.1999"));
-        articles.add(new ArticleModel(R.drawable.user, R.drawable.bookmark,"Headline4" ,"desc4", "14.03.1999"));
+        articles.add(new ArticleModel(R.drawable.user, R.drawable.bookmark_unchecked,"Headline1" ,"desc1", "11.03.1999",false));
+        articles.add(new ArticleModel(R.drawable.user, R.drawable.bookmark_unchecked,"Headline2" ,"desc2", "12.03.1999",false));
+        articles.add(new ArticleModel(R.drawable.user, R.drawable.bookmark_unchecked,"Headline3" ,"desc3", "13.03.1999",false));
+        articles.add(new ArticleModel(R.drawable.user, R.drawable.bookmark_unchecked,"Headline4" ,"desc4", "14.03.1999",false));
+        articles.add(new ArticleModel(R.drawable.user, R.drawable.bookmark_unchecked,"Headline4" ,"desc4", "14.03.1999",false));
+        articles.add(new ArticleModel(R.drawable.user, R.drawable.bookmark_unchecked,"Headline4" ,"desc4", "14.03.1999",false));
+        articles.add(new ArticleModel(R.drawable.user, R.drawable.bookmark_unchecked,"Headline4" ,"desc4", "14.03.1999",false));
+        articles.add(new ArticleModel(R.drawable.user, R.drawable.bookmark_unchecked,"Headline4" ,"desc4", "14.03.1999",false));
+        articles.add(new ArticleModel(R.drawable.user, R.drawable.bookmark_unchecked,"Headline4" ,"desc4", "14.03.1999",false));
+        articles.add(new ArticleModel(R.drawable.user, R.drawable.bookmark_unchecked,"Headline4" ,"desc4", "14.03.1999",false));
 
         mRecyclerview = findViewById(R.id.article_recyclerview);
         mSwipeRefreshLayout = findViewById(R.id.article_swipe);
@@ -93,15 +93,21 @@ public class ArticleActivity extends AppCompatActivity {
                     case R.id.bottom_nav_second:
                         intent = new Intent(ArticleActivity.this, VideoActivity.class);
                         startActivity(intent);
+                        showTransitionAnim();
                         break;
                     case R.id.bottom_nav_third:
                         intent = new Intent(ArticleActivity.this, BookmarkActivity.class);
                         startActivity(intent);
+                        showTransitionAnim();
                         break;
                 }
                 return false;
             }
         });
+    }
+
+    private void showTransitionAnim() {
+        this.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     @Override

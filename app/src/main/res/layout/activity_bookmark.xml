@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#003366"
-    tools:context=".activities.VideoActivity">
-
+    tools:context=".activities.BookmarkActivity"
+    android:orientation="vertical">
 
     <!-- Toolbar section-->
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/video_toolbar"
+        android:id="@+id/bookmark_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,29 +17,24 @@
         app:layout_constraintTop_toTopOf="parent"
         android:background="#001C39"/>
 
-    <!-- Recyclerview section-->
-    <RelativeLayout
+    <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/video_toolbar"
-        android:layout_above="@+id/bottom_navigation">
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/video_swipe">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/video_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginEnd="0dp"
-                android:layout_marginRight="0dp"
-                />
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:background="#001C39"
+        app:tabMode="fixed"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@android:color/white"
+        android:id="@+id/bookmark_tablayout"
+        app:tabTextColor="@android:color/white"
+        app:tabSelectedTextColor="#4eaa41"
+        android:layout_below="@+id/bookmark_toolbar"/>
 
+    <androidx.viewpager.widget.ViewPager
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/bookmark_viewpager"
+        android:layout_below="@+id/bookmark_tablayout"
+        android:layout_above="@id/bottom_navigation"/>
 
     <!-- Bottom nav section-->
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -54,5 +48,4 @@
         app:menu="@menu/bottom_nav_menu"
         app:itemIconTint="@drawable/selector"
         app:itemIconSize="35dp"/>
-
 </RelativeLayout>

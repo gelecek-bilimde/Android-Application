@@ -6,13 +6,15 @@ public class VideoModel {
     private int videoBookmarkLogo;
     private String videoTitle;
     private String videoDate;
+    private boolean isBookmarked;
 
-    public VideoModel(int videoThumbnail, int videoPublisherLogo, int videoBookmarkLogo, String videoTitle, String videoDate) {
+    public VideoModel(int videoThumbnail, int videoPublisherLogo, int videoBookmarkLogo, String videoTitle, String videoDate, boolean isBookmarked) {
         this.videoThumbnail = videoThumbnail;
         this.videoPublisherLogo = videoPublisherLogo;
         this.videoBookmarkLogo = videoBookmarkLogo;
         this.videoTitle = videoTitle;
         this.videoDate = videoDate;
+        this.isBookmarked = isBookmarked;
     }
 
     public int getVideoThumbnail() {
@@ -53,5 +55,13 @@ public class VideoModel {
 
     public void setVideoDate(String videoDate) {
         this.videoDate = videoDate;
+    }
+
+    public boolean getIsBookmarked() {
+        return isBookmarked;
+    }
+
+    public void setIsBookmarked(boolean bookmarked) {
+        isBookmarked = bookmarked;
     }
 }
