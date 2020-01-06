@@ -9,12 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.BookmarkActivity"></activity>
-        <activity android:name=".activities.VideoActivity" />
         <activity
-            android:name=".activities.ArticleActivity"
-            android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activities.MainActivity">
+            android:name=".Activities.MainActivity"
+            android:label="@string/title_activity_main" />
+        <activity android:name=".Activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
