@@ -1,12 +1,9 @@
-package com.gelecekbilimde.gelecekbilimde.Network;
+package com.gelecekbilimde.gelecekbilimde.Fragments.article;
 
-import android.app.Application;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import androidx.paging.PagedList;
 
 import com.gelecekbilimde.gelecekbilimde.Models.ArticleModel;
 import com.gelecekbilimde.gelecekbilimde.Repository.ArticleRepository;
@@ -17,29 +14,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.sql.SQLOutput;
-import java.util.List;
+public class ItemBoundaryCallback extends PagedList.BoundaryCallback<ArticleModel> {
+    ArticleRepository repository;
 
-import static android.content.ContentValues.TAG;
-
-public class ArticleFirebase {
-    DatabaseReference myRef;
-    FirebaseDatabase database ;
-    private String lastkey="";
-
-    public ArticleFirebase() {
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Articles");
+    public ItemBoundaryCallback(ArticleRepository repository) {
+        this.repository =repository;
     }
 
-    public void getTenArticlesFromFirebase(final ArticleRepository articleRepository) {
-        Query query ;
-        if (TextUtils.isEmpty(lastkey)) {
-            query = myRef.orderByChild("articleDate").limitToLast(10);
-        } else {
-            query = myRef.orderByChild("articleDate").limitToLast(10);
-        }
+    @Override
+    public void onItemAtEndLoaded(@NonNull ArticleModel itemAtEnd) {
+        super.onItemAtEndLoaded(itemAtEnd);
 
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Articles");
+
+        System.out.println("teoooooo"+itemAtEnd.getArticleTitle()+"   "+itemAtEnd.getArticleId());
+
+        Query query = myRef.orderByChild("articleDate").endAt(itemAtEnd.getArticleDate()).limitToLast(5);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -47,9 +37,9 @@ public class ArticleFirebase {
                 if (dataSnapshot.hasChildren()) {
                     for (DataSnapshot each: dataSnapshot.getChildren()) {
                         articleModel= each.getValue(ArticleModel.class);
-                        articleRepository.insertArticle(articleModel);
-                        lastkey = each.getKey();
+                        repository.insertArticle(articleModel);
                     }
+
                 }
 
             }
@@ -61,5 +51,6 @@ public class ArticleFirebase {
 
 
         });
+
     }
 }

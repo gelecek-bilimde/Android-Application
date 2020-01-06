@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -44,15 +45,22 @@ public class ArticleFragment extends Fragment {
         mRecyclerview.setAdapter(mAdapter);
         articleViewModel = ViewModelProviders.of(this).get(ArticleViewModel.class);
 
-
+/*
         articleViewModel.getAllArticles().observe(this, new Observer<List<ArticleModel>>() {
-            @Override
+                @Override
             public void onChanged(List<ArticleModel> articleModels) {
+                mAdapter.submitList(articleModels);
+            }
+        });*/
+
+        articleViewModel.getAllArticles().observe(this, new Observer<PagedList<ArticleModel>>() {
+            @Override
+            public void onChanged(PagedList<ArticleModel> articleModels) {
                 mAdapter.submitList(articleModels);
             }
         });
 
-        mRecyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
+      /*  mRecyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             boolean isScrolling =false;
 
@@ -77,7 +85,7 @@ public class ArticleFragment extends Fragment {
 
                 }
             }
-        });
+        });*/
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

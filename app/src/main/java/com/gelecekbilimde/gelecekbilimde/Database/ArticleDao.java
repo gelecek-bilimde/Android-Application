@@ -1,6 +1,7 @@
 package com.gelecekbilimde.gelecekbilimde.Database;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -28,7 +29,7 @@ public interface ArticleDao {
     void deleteAllArticles();
 
     @Query("Select * From article_table order by articleDate desc")
-    LiveData<List<ArticleModel>> getAllArticles();
+    DataSource.Factory<Integer, ArticleModel> getAllArticles();
 
     @Query("Select * from article_table where bookmarked=0")
     LiveData<List<ArticleModel>> getAllBookmarkedArticles();

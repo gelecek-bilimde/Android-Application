@@ -18,7 +18,7 @@ import java.util.List;
 public class ArticleRepository {
 
     private ArticleDao dao;
-    private LiveData<List<ArticleModel>> allArticles;
+    private DataSource.Factory<Integer, ArticleModel> allArticles;
     private ArticleFirebase articleFirebase;
 
 
@@ -42,7 +42,7 @@ public class ArticleRepository {
         new DeleteAllArticlesAsync(dao).execute();
     }
 
-    public LiveData<List<ArticleModel>> getAllArticles(){
+    public DataSource.Factory<Integer, ArticleModel> getAllArticles(){
         return allArticles;
     }
 

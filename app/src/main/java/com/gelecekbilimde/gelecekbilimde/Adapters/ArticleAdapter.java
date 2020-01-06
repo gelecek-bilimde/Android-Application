@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +21,7 @@ import com.gelecekbilimde.gelecekbilimde.Models.ArticleModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArticleAdapter extends ListAdapter<ArticleModel,ArticleAdapter.ArticleViewHolder> {
+public class ArticleAdapter extends PagedListAdapter<ArticleModel,ArticleAdapter.ArticleViewHolder> {
 
     Context mContext;
 

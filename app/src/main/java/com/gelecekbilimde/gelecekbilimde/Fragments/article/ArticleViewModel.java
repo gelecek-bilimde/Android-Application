@@ -4,22 +4,28 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import androidx.paging.DataSource;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 
 import com.gelecekbilimde.gelecekbilimde.Models.ArticleModel;
 import com.gelecekbilimde.gelecekbilimde.Repository.ArticleRepository;
 
-import java.util.List;
-
 public class ArticleViewModel extends AndroidViewModel {
     private ArticleRepository articleRepository;
-    private LiveData<List<ArticleModel>> allArticles;
+    private LiveData<PagedList<ArticleModel>> allArticles;
 
 
     public ArticleViewModel(Application application) {
         super(application);
         articleRepository = new ArticleRepository(application);
-        allArticles = articleRepository.getAllArticles();
+
+        DataSource.Factory factory = articleRepository.getAllArticles();
+        ItemBoundaryCallback boundaryCallback = new ItemBoundaryCallback(articleRepository);
+        LivePagedListBuilder pagedListBuilder = new LivePagedListBuilder(factory,10).setBoundaryCallback(boundaryCallback);
+
+        allArticles = pagedListBuilder.build();
+        //allArticles = articleRepository.getAllArticles();
     }
 
     public void insertArticle(ArticleModel article) {
@@ -38,8 +44,8 @@ public class ArticleViewModel extends AndroidViewModel {
         articleRepository.updateArticle(article);
     }
 
-    public LiveData<List<ArticleModel>> getAllArticles() {
-        return articleRepository.getAllArticles();
+    public LiveData<PagedList<ArticleModel>> getAllArticles() {
+        return allArticles;
     }
     public void getTenArticlesfromfirebase() {
         articleRepository.getTenArticlesFromFirebase();
