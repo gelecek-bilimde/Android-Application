@@ -21,7 +21,7 @@ public class ArticleViewModel extends AndroidViewModel {
         articleRepository = new ArticleRepository(application);
 
         DataSource.Factory factory = articleRepository.getAllArticles();
-        ItemBoundaryCallback boundaryCallback = new ItemBoundaryCallback(articleRepository);
+        ArticleItemBoundaryCallback boundaryCallback = new ArticleItemBoundaryCallback(articleRepository);
         LivePagedListBuilder pagedListBuilder = new LivePagedListBuilder(factory,10).setBoundaryCallback(boundaryCallback);
 
         allArticles = pagedListBuilder.build();
@@ -47,6 +47,7 @@ public class ArticleViewModel extends AndroidViewModel {
     public LiveData<PagedList<ArticleModel>> getAllArticles() {
         return allArticles;
     }
+
     public void getTenArticlesfromfirebase() {
         articleRepository.getTenArticlesFromFirebase();
     }

@@ -39,7 +39,7 @@ public class BookmarkedVideoFragment extends Fragment {
         mRecyclerview.setHasFixedSize(true) ;
         mRecyclerview.addItemDecoration(new DividerItemDecoration(mRecyclerview.getContext(), DividerItemDecoration.VERTICAL));
         mLayoutManager  = new LinearLayoutManager(getActivity());
-        mAdapter = new VideoAdapter();
+        mAdapter = new VideoAdapter(getContext());
 
         mRecyclerview.setLayoutManager(mLayoutManager);
         mRecyclerview.setAdapter(mAdapter);

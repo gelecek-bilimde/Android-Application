@@ -4,20 +4,24 @@ import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 
 import com.gelecekbilimde.gelecekbilimde.Database.MyDatabase;
 import com.gelecekbilimde.gelecekbilimde.Database.VideoDao;
 import com.gelecekbilimde.gelecekbilimde.Models.VideoModel;
+import com.gelecekbilimde.gelecekbilimde.Network.YoutubeVideoGetterNetwork;
 
 import java.util.List;
 
 public class VideoRepository {
     private VideoDao dao;
-    private LiveData<List<VideoModel>> allVideos;
+    private DataSource.Factory<Integer,VideoModel> allVideos;
+    private YoutubeVideoGetterNetwork videoGetterNetwork;
 
     public VideoRepository(Application application){
         MyDatabase database = MyDatabase.getInstance(application);
         dao = database.videoDao();
+        videoGetterNetwork = new YoutubeVideoGetterNetwork();
         allVideos = dao.getAllVideos();
     }
     public void insertVideo(VideoModel video) {
@@ -33,8 +37,12 @@ public class VideoRepository {
         new DeleteAllVideosAsync(dao).execute();
     }
 
-    public LiveData<List<VideoModel>> getAllVideos(){
+    public DataSource.Factory<Integer,VideoModel> getAllVideos(){
         return allVideos;
+    }
+
+    public void getTenVideosViaRetrofit() {
+        videoGetterNetwork.getTenVideosViaRetrofit(this);
     }
 
 

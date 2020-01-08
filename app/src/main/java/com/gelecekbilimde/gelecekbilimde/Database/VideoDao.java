@@ -1,6 +1,7 @@
 package com.gelecekbilimde.gelecekbilimde.Database;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -27,5 +28,5 @@ public interface VideoDao {
     void deleteAllVideos();
 
     @Query("Select * From video_table")
-    LiveData<List<VideoModel>> getAllVideos();
+    DataSource.Factory<Integer, VideoModel> getAllVideos();
 }

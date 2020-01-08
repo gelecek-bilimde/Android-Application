@@ -11,8 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.gelecekbilimde.gelecekbilimde.Adapters.VideoAdapter;
 import com.gelecekbilimde.gelecekbilimde.Models.VideoModel;
@@ -24,7 +26,7 @@ import java.util.List;
 public class VideoFragment extends Fragment {
 
     private VideoViewModel videoViewModel;
-
+    private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private VideoAdapter videoAdapter;
 
@@ -34,16 +36,27 @@ public class VideoFragment extends Fragment {
 
         videoViewModel = ViewModelProviders.of(this).get(VideoViewModel.class);
         recyclerView = view.findViewById(R.id.video_recycler);
+        swipeRefreshLayout = view.findViewById(R.id.videos_swipe);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        videoAdapter = new VideoAdapter();
+        videoAdapter = new VideoAdapter(getContext());
         recyclerView.setAdapter(videoAdapter);
 
-        videoViewModel.getAllVideos().observe(this, new Observer<List<VideoModel>>() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onChanged(List<VideoModel> videoModels) {
+            public void onRefresh() {
+                videoViewModel.deleteAllVideos();
+                videoViewModel.getTenVideosViaRetrofit();
+            }
+        });
+
+        videoViewModel.getAllVideos().observe(this, new Observer<PagedList<VideoModel>>() {
+            @Override
+            public void onChanged(PagedList<VideoModel> videoModels) {
                 videoAdapter.submitList(videoModels);
             }
         });
+
+
 
         return view;
     }

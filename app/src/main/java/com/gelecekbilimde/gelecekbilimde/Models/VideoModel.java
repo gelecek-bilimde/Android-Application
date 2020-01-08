@@ -9,20 +9,20 @@ public class VideoModel {
     @PrimaryKey(autoGenerate = true)
     private int videoId;
 
-    private int videoThumbnail;
-    private int videoPublisherLogo;
-    private int videoBookmarkLogo;
+    private String videoThumbnail;
     private String videoTitle;
     private String videoDate;
+    private String videoDesc;
     private boolean bookmarked;
+    private String videoURLId;
 
-    public VideoModel(int videoThumbnail, int videoPublisherLogo, int videoBookmarkLogo, String videoTitle, String videoDate, boolean bookmarked) {
+    public VideoModel(String videoThumbnail, String videoTitle, String videoDate, boolean bookmarked,String videoDesc,String videoURLId) {
         this.videoThumbnail = videoThumbnail;
-        this.videoPublisherLogo = videoPublisherLogo;
-        this.videoBookmarkLogo = videoBookmarkLogo;
         this.videoTitle = videoTitle;
         this.videoDate = videoDate;
         this.bookmarked = bookmarked;
+        this.videoDesc = videoDesc;
+        this.videoURLId =videoURLId;
     }
 
     public int getVideoId() {
@@ -33,21 +33,17 @@ public class VideoModel {
         this.videoId = videoId;
     }
 
-    public int getVideoThumbnail() {
+    public String getVideoThumbnail() {
         return videoThumbnail;
     }
 
-
-    public int getVideoPublisherLogo() {
-        return videoPublisherLogo;
+    public String getVideoURLId() {
+        return videoURLId;
     }
 
-
-
-    public int getVideoBookmarkLogo() {
-        return videoBookmarkLogo;
+    public String getVideoDesc() {
+        return videoDesc;
     }
-
 
     public String getVideoTitle() {
         return videoTitle;

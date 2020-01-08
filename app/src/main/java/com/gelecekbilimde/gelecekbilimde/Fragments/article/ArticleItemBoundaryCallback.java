@@ -14,10 +14,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class ItemBoundaryCallback extends PagedList.BoundaryCallback<ArticleModel> {
+public class ArticleItemBoundaryCallback extends PagedList.BoundaryCallback<ArticleModel> {
     ArticleRepository repository;
 
-    public ItemBoundaryCallback(ArticleRepository repository) {
+    public ArticleItemBoundaryCallback(ArticleRepository repository) {
         this.repository =repository;
     }
 
@@ -26,8 +26,6 @@ public class ItemBoundaryCallback extends PagedList.BoundaryCallback<ArticleMode
         super.onItemAtEndLoaded(itemAtEnd);
 
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Articles");
-
-        System.out.println("teoooooo"+itemAtEnd.getArticleTitle()+"   "+itemAtEnd.getArticleId());
 
         Query query = myRef.orderByChild("articleDate").endAt(itemAtEnd.getArticleDate()).limitToLast(5);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -39,9 +37,7 @@ public class ItemBoundaryCallback extends PagedList.BoundaryCallback<ArticleMode
                         articleModel= each.getValue(ArticleModel.class);
                         repository.insertArticle(articleModel);
                     }
-
                 }
-
             }
 
             @Override

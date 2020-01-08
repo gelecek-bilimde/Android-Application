@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.DataSource;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,13 +46,6 @@ public class ArticleFragment extends Fragment {
         mRecyclerview.setAdapter(mAdapter);
         articleViewModel = ViewModelProviders.of(this).get(ArticleViewModel.class);
 
-/*
-        articleViewModel.getAllArticles().observe(this, new Observer<List<ArticleModel>>() {
-                @Override
-            public void onChanged(List<ArticleModel> articleModels) {
-                mAdapter.submitList(articleModels);
-            }
-        });*/
 
         articleViewModel.getAllArticles().observe(this, new Observer<PagedList<ArticleModel>>() {
             @Override
@@ -59,33 +53,6 @@ public class ArticleFragment extends Fragment {
                 mAdapter.submitList(articleModels);
             }
         });
-
-      /*  mRecyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-            boolean isScrolling =false;
-
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                isScrolling =true;
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int currentItems = manager.getChildCount();
-                int totalItems = manager.getItemCount();
-                int scrollOutItems = manager.findFirstVisibleItemPosition();
-
-                if (isScrolling && (currentItems+scrollOutItems == totalItems)) {
-                    isScrolling= false;
-
-                    articleViewModel.getTenArticlesfromfirebase();
-                    Toast.makeText(getContext(),"asdas",Toast.LENGTH_LONG).show();
-
-                }
-            }
-        });*/
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
