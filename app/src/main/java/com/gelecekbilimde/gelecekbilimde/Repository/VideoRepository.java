@@ -3,25 +3,22 @@ package com.gelecekbilimde.gelecekbilimde.Repository;
 import android.app.Application;
 import android.os.AsyncTask;
 
-import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
 
 import com.gelecekbilimde.gelecekbilimde.Database.MyDatabase;
 import com.gelecekbilimde.gelecekbilimde.Database.VideoDao;
 import com.gelecekbilimde.gelecekbilimde.Models.VideoModel;
-import com.gelecekbilimde.gelecekbilimde.Network.YoutubeVideoGetterNetwork;
-
-import java.util.List;
+import com.gelecekbilimde.gelecekbilimde.Network.VideoFirebase;
 
 public class VideoRepository {
     private VideoDao dao;
     private DataSource.Factory<Integer,VideoModel> allVideos;
-    private YoutubeVideoGetterNetwork videoGetterNetwork;
+    private VideoFirebase videoFirebase;
 
     public VideoRepository(Application application){
         MyDatabase database = MyDatabase.getInstance(application);
         dao = database.videoDao();
-        videoGetterNetwork = new YoutubeVideoGetterNetwork();
+        videoFirebase = new VideoFirebase();
         allVideos = dao.getAllVideos();
     }
     public void insertVideo(VideoModel video) {
@@ -41,8 +38,8 @@ public class VideoRepository {
         return allVideos;
     }
 
-    public void getTenVideosViaRetrofit() {
-        videoGetterNetwork.getTenVideosViaRetrofit(this);
+    public void getTenVideosFromFirebase() {
+        videoFirebase.getTenArticlesFromFirebase(this);
     }
 
 

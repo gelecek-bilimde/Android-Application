@@ -27,6 +27,6 @@ public interface VideoDao {
     @Query("DELETE FROM video_table")
     void deleteAllVideos();
 
-    @Query("Select * From video_table")
+    @Query("Select * From video_table order by videoDate desc")
     DataSource.Factory<Integer, VideoModel> getAllVideos();
 }

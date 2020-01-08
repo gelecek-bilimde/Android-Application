@@ -46,6 +46,7 @@ public class ArticleFragment extends Fragment {
         mRecyclerview.setAdapter(mAdapter);
         articleViewModel = ViewModelProviders.of(this).get(ArticleViewModel.class);
 
+        articleViewModel.getTenArticlesfromfirebase();
 
         articleViewModel.getAllArticles().observe(this, new Observer<PagedList<ArticleModel>>() {
             @Override

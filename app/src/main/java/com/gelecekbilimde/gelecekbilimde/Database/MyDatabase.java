@@ -13,7 +13,7 @@ import com.gelecekbilimde.gelecekbilimde.Models.ArticleModel;
 import com.gelecekbilimde.gelecekbilimde.Models.VideoModel;
 import com.gelecekbilimde.gelecekbilimde.R;
 
-@Database(entities = {ArticleModel.class, VideoModel.class}, version = 5)
+@Database(entities = {ArticleModel.class, VideoModel.class}, version = 11)
 public abstract class MyDatabase extends RoomDatabase {
 
     private static MyDatabase myDatabaseInstance;

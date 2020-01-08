@@ -44,8 +44,9 @@ public class VideoFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                videoViewModel.deleteAllVideos();
-                videoViewModel.getTenVideosViaRetrofit();
+                //videoViewModel.deleteAllVideos();
+                videoViewModel.getTenVideosFromFirebase();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 

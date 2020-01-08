@@ -47,7 +47,7 @@ public class VideoViewModel extends AndroidViewModel {
     public LiveData<PagedList<VideoModel>> getAllVideos() {
         return allVideos;
     }
-    public void getTenVideosViaRetrofit() {
-        videoRepository.getTenVideosViaRetrofit();
+    public void getTenVideosFromFirebase() {
+        videoRepository.getTenVideosFromFirebase();
     }
 }

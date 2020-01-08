@@ -1,9 +1,8 @@
 package com.gelecekbilimde.gelecekbilimde.Adapters;
 
 import android.content.Context;
-import android.provider.MediaStore;
+import android.content.Intent;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,23 +11,19 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.paging.PagedList;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.gelecekbilimde.gelecekbilimde.Activities.YoutubeVideoActivity;
 import com.gelecekbilimde.gelecekbilimde.R;
 import com.gelecekbilimde.gelecekbilimde.Models.VideoModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
 
 public class VideoAdapter extends PagedListAdapter<VideoModel,VideoAdapter.VideoViewHolder> {
 
@@ -42,7 +37,7 @@ public class VideoAdapter extends PagedListAdapter<VideoModel,VideoAdapter.Video
     private static final DiffUtil.ItemCallback<VideoModel> callback = new DiffUtil.ItemCallback<VideoModel>() {
         @Override
         public boolean areItemsTheSame(@NonNull VideoModel oldItem, @NonNull VideoModel newItem) {
-            return oldItem.getVideoId() == newItem.getVideoId();
+            return oldItem.getVideoURLId().equals(newItem.getVideoURLId());
         }
 
         @Override
@@ -110,18 +105,31 @@ public class VideoAdapter extends PagedListAdapter<VideoModel,VideoAdapter.Video
 
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
-    VideoModel selectedVideo = getItem(position);
+    final VideoModel selectedVideo = getItem(position);
 
-       String sdf = calculateDate(selectedVideo.getVideoDate());
+        if (selectedVideo != null) {
+            if (selectedVideo.getVideoDate() != null) {
+                String sdf = calculateDate(selectedVideo.getVideoDate());
+                holder.videoDate.setText(sdf);
+            }
 
-        holder.videoDate.setText(sdf);
+            Glide.with(mContext).load(selectedVideo.getVideoImageURL())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .centerCrop()
+                    .into(holder.videoThumbnail);
 
-        Glide.with(mContext).load(selectedVideo.getVideoThumbnail())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(holder.videoThumbnail);
+            holder.videoTitle.setText(Html.fromHtml(selectedVideo.getVideoTitle()));
+        }
 
-    holder.videoTitle.setText(Html.fromHtml(selectedVideo.getVideoTitle()));
-    //holder.videoDate.setText(selectedVideo.getVideoDate());
+        holder.videoThumbnail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, YoutubeVideoActivity.class);
+                intent.putExtra("VIDEO_URL",selectedVideo.getVideoURLId());
+                mContext.startActivity(intent);
+            }
+        });
+
     }
 
     private String calculateDate(String videoDate) {
@@ -132,10 +140,11 @@ public class VideoAdapter extends PagedListAdapter<VideoModel,VideoAdapter.Video
             date = format.parse(videoDate.replaceAll("Z$", "+0000"));
             System.out.println(date);
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         String sdf = new SimpleDateFormat("dd/MM/yyyy").format(date);
+
+
         return sdf;
     }
 

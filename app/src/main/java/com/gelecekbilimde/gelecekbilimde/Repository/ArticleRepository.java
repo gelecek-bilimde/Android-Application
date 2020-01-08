@@ -2,6 +2,7 @@ package com.gelecekbilimde.gelecekbilimde.Repository;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
@@ -19,6 +20,7 @@ public class ArticleRepository {
 
     private ArticleDao dao;
     private DataSource.Factory<Integer, ArticleModel> allArticles;
+    private DataSource.Factory<Integer, ArticleModel> allBookmarkedArticles;
     private ArticleFirebase articleFirebase;
 
 
@@ -27,12 +29,15 @@ public class ArticleRepository {
         dao = database.articleDao();
         articleFirebase = new ArticleFirebase();
         allArticles = dao.getAllArticles();
+        allBookmarkedArticles = dao.getAllBookmarkedArticles();
     }
 
     public void insertArticle(ArticleModel article) {
         new InsertArticleAsync(dao).execute(article);
     }
+    String TAG = "teooo";
     public void updateArticle(ArticleModel article) {
+        Log.d(TAG, "updateArticle: ");
         new UpdateArticleAsync(dao).execute(article);
     }
     public void deleteArticle(ArticleModel article) {
@@ -44,6 +49,10 @@ public class ArticleRepository {
 
     public DataSource.Factory<Integer, ArticleModel> getAllArticles(){
         return allArticles;
+    }
+
+    public DataSource.Factory<Integer, ArticleModel> getAllBookmarkedArticles(){
+        return allBookmarkedArticles;
     }
 
     public void getTenArticlesFromFirebase(){

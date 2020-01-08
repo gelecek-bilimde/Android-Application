@@ -1,11 +1,12 @@
-package com.gelecekbilimde.gelecekbilimde.Fragments.video;
+package com.gelecekbilimde.gelecekbilimde.Network;
 
-import android.util.Log;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
-import androidx.paging.PagedList;
 
+import com.gelecekbilimde.gelecekbilimde.Models.ArticleModel;
 import com.gelecekbilimde.gelecekbilimde.Models.VideoModel;
+import com.gelecekbilimde.gelecekbilimde.Repository.ArticleRepository;
 import com.gelecekbilimde.gelecekbilimde.Repository.VideoRepository;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -14,34 +15,30 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import static androidx.constraintlayout.widget.Constraints.TAG;
+public class VideoFirebase {
+    DatabaseReference myRef;
+    FirebaseDatabase firebaseDatabase;
+    private String lastKey="";
 
-public class VideoItemBoundaryCallback extends PagedList.BoundaryCallback<VideoModel> {
-
-    private VideoRepository repository;
-    String TAG ="teooo";
-    public VideoItemBoundaryCallback(VideoRepository videoRepository) {
-        this.repository = videoRepository;
+    public VideoFirebase() {
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = firebaseDatabase.getReference("Videos");
     }
 
-    @Override
-    public void onItemAtEndLoaded(@NonNull VideoModel itemAtEnd) {
-        super.onItemAtEndLoaded(itemAtEnd);
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Videos");
-        
+    public void getTenArticlesFromFirebase(final VideoRepository videoRepository) {
+        Query query = myRef.orderByChild("videoDate").limitToLast(10);
 
-        Query query = myRef.orderByChild("videoDate").endAt(itemAtEnd.getVideoDate()).limitToLast(5);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 VideoModel videoModel;
                 if (dataSnapshot.hasChildren()) {
                     for (DataSnapshot each: dataSnapshot.getChildren()) {
-                        Log.d(TAG, "onDataChange: "+each.getValue());
                         videoModel= each.getValue(VideoModel.class);
-                        repository.insertVideo(videoModel);
+                        videoRepository.insertVideo(videoModel);
                     }
                 }
+
             }
 
             @Override
@@ -51,6 +48,6 @@ public class VideoItemBoundaryCallback extends PagedList.BoundaryCallback<VideoM
 
 
         });
-
     }
+
 }

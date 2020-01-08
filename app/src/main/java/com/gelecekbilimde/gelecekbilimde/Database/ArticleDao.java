@@ -32,6 +32,6 @@ public interface ArticleDao {
     DataSource.Factory<Integer, ArticleModel> getAllArticles();
 
     @Query("Select * from article_table where bookmarked=1")
-    LiveData<List<ArticleModel>> getAllBookmarkedArticles();
+    DataSource.Factory<Integer, ArticleModel> getAllBookmarkedArticles();
 
 }

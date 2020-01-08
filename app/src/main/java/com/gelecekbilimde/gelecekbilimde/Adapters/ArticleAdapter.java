@@ -15,6 +15,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gelecekbilimde.gelecekbilimde.Activities.ArticleReadActivity;
+import com.gelecekbilimde.gelecekbilimde.Fragments.article.ArticleViewModel;
 import com.gelecekbilimde.gelecekbilimde.R;
 import com.gelecekbilimde.gelecekbilimde.Models.ArticleModel;
 
@@ -32,10 +35,11 @@ import java.util.Date;
 public class ArticleAdapter extends PagedListAdapter<ArticleModel,ArticleAdapter.ArticleViewHolder> {
 
     Context mContext;
-
+    ArticleViewModel articleViewModel;
     public ArticleAdapter(Context mContext) {
         super(callback);
         this.mContext = mContext;
+        articleViewModel = ViewModelProviders.of((FragmentActivity) mContext).get(ArticleViewModel.class);
     }
 
     private static final DiffUtil.ItemCallback<ArticleModel> callback = new DiffUtil.ItemCallback<ArticleModel>() {
@@ -86,21 +90,7 @@ public class ArticleAdapter extends PagedListAdapter<ArticleModel,ArticleAdapter
             }
         });
 
-        //article bookmark image onclick methodu
-        articleViewHolder.articleBookmarkImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(getItem(articleViewHolder.getAdapterPosition()).isBookmarked()){
-                    articleViewHolder.articleBookmarkImage.setImageResource(R.drawable.bookmark_unchecked);
-                    getItem(articleViewHolder.getAdapterPosition()).setBookmarked(false);
 
-                }else{
-                articleViewHolder.articleBookmarkImage.setImageResource(R.drawable.bookmark_checked);
-                    getItem(articleViewHolder.getAdapterPosition()).setBookmarked(true);
-
-                }
-            }
-        });
 
         return articleViewHolder;
     }
@@ -125,7 +115,12 @@ public class ArticleAdapter extends PagedListAdapter<ArticleModel,ArticleAdapter
                     .circleCrop()
                     .into(holder.articleImage);
         }
-        holder.articleBookmarkImage.setImageResource(R.drawable.bookmark_unchecked);
+        if (currentArticle.isBookmarked()) {
+            holder.articleBookmarkImage.setImageResource(R.drawable.bookmark_checked);
+        } else {
+            holder.articleBookmarkImage.setImageResource(R.drawable.bookmark_unchecked);
+        }
+
         holder.articleDate.setText(finalDateTime);
         holder.articledescription.setText(Html.fromHtml(currentArticle.getArticleDesc()));
         holder.articleHeadline.setText(Html.fromHtml(currentArticle.getArticleTitle()));
@@ -140,6 +135,31 @@ public class ArticleAdapter extends PagedListAdapter<ArticleModel,ArticleAdapter
             intent.putExtra("ARTICLE_BODY",currentArticle.getArticleBody());
             intent.putExtra("ARTICLE_TITLE",currentArticle.getArticleTitle());
             mContext.startActivity(intent);
+            }
+        });
+
+        holder.articleBookmarkImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!currentArticle.isBookmarked()) {
+                    setBookmarkedTrue(currentArticle);
+                } else {
+                    setBookmarkFalse(currentArticle);
+                }
+
+            }
+
+            private void setBookmarkFalse(ArticleModel currentArticle) {
+                currentArticle.setBookmarked(false);
+                articleViewModel.updateArticle(currentArticle);
+                holder.articleBookmarkImage.setImageResource(R.drawable.bookmark_unchecked);
+            }
+
+            private void setBookmarkedTrue(ArticleModel currentArticle) {
+                currentArticle.setBookmarked(true);
+                articleViewModel.updateArticle(currentArticle);
+                holder.articleBookmarkImage.setImageResource(R.drawable.bookmark_checked);
             }
         });
 

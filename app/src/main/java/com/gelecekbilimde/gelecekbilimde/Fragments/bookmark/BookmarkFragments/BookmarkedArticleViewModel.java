@@ -1,4 +1,4 @@
-package com.gelecekbilimde.gelecekbilimde.Fragments.article;
+package com.gelecekbilimde.gelecekbilimde.Fragments.bookmark.BookmarkFragments;
 
 import android.app.Application;
 
@@ -8,23 +8,23 @@ import androidx.paging.DataSource;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
-import com.gelecekbilimde.gelecekbilimde.Fragments.bookmark.BookmarkFragments.BookmarkedArticleBoundaryCallback;
+import com.gelecekbilimde.gelecekbilimde.Fragments.article.ArticleItemBoundaryCallback;
 import com.gelecekbilimde.gelecekbilimde.Models.ArticleModel;
 import com.gelecekbilimde.gelecekbilimde.Repository.ArticleRepository;
 
-public class ArticleViewModel extends AndroidViewModel {
+public class BookmarkedArticleViewModel extends AndroidViewModel {
     private ArticleRepository articleRepository;
-    private LiveData<PagedList<ArticleModel>> allArticles;
+    private LiveData<PagedList<ArticleModel>> allBookmarkedArticles;
 
 
-    public ArticleViewModel(Application application) {
+    public BookmarkedArticleViewModel(Application application) {
         super(application);
         articleRepository = new ArticleRepository(application);
 
-        DataSource.Factory factory = articleRepository.getAllArticles();
-        ArticleItemBoundaryCallback boundaryCallback = new ArticleItemBoundaryCallback(articleRepository);
+        DataSource.Factory factory = articleRepository.getAllBookmarkedArticles();
+        BookmarkedArticleBoundaryCallback boundaryCallback = new BookmarkedArticleBoundaryCallback(articleRepository);
         LivePagedListBuilder pagedListBuilder = new LivePagedListBuilder(factory,10).setBoundaryCallback(boundaryCallback);
-        allArticles = pagedListBuilder.build();
+        allBookmarkedArticles = pagedListBuilder.build();
 
         //allArticles = articleRepository.getAllArticles();
     }
@@ -45,14 +45,8 @@ public class ArticleViewModel extends AndroidViewModel {
         articleRepository.updateArticle(article);
     }
 
-    public LiveData<PagedList<ArticleModel>> getAllArticles() {
-        return allArticles;
+    public LiveData<PagedList<ArticleModel>> getAllBookmarkedArticles() {
+        return allBookmarkedArticles;
     }
-
-    public void getTenArticlesfromfirebase() {
-        articleRepository.getTenArticlesFromFirebase();
-    }
-
-
 
 }
