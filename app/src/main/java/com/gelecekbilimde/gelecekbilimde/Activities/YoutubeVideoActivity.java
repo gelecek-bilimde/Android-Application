@@ -3,6 +3,8 @@ package com.gelecekbilimde.gelecekbilimde.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import com.gelecekbilimde.gelecekbilimde.R;
 import com.gelecekbilimde.gelecekbilimde.YoutubeAPI.YoutubeAPI;
@@ -49,5 +51,9 @@ public class YoutubeVideoActivity extends YouTubeBaseActivity {
             videoURL = getIntent().getStringExtra("VIDEO_URL");
         }
 
+    }
+
+    public void exitVideoActivity(View view) {
+        finish();
     }
 }

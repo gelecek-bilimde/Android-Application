@@ -7,16 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.gelecekbilimde.gelecekbilimde.Activities.YoutubeVideoActivity;
 import com.gelecekbilimde.gelecekbilimde.R;
 import com.gelecekbilimde.gelecekbilimde.Models.VideoModel;
@@ -42,7 +43,7 @@ public class VideoAdapter extends PagedListAdapter<VideoModel,VideoAdapter.Video
 
         @Override
         public boolean areContentsTheSame(@NonNull VideoModel oldItem, @NonNull VideoModel newItem) {
-            return oldItem.getVideoTitle().equals(newItem.getVideoTitle());
+            return oldItem.getVideoTitle().equals(newItem.getVideoTitle()) && oldItem.isBookmarked()==newItem.isBookmarked();
         }
     };
 
@@ -53,7 +54,7 @@ public class VideoAdapter extends PagedListAdapter<VideoModel,VideoAdapter.Video
         public ImageView videoBookmarkLogo;
         public TextView videoTitle;
         public TextView videoDate;
-        private CardView videoCardView;
+        private RelativeLayout videoRelativeLayout;
 
         public VideoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -62,7 +63,7 @@ public class VideoAdapter extends PagedListAdapter<VideoModel,VideoAdapter.Video
             videoBookmarkLogo= itemView.findViewById(R.id.video_bookmark_logo);
             videoTitle= itemView.findViewById(R.id.video_title);
             videoDate= itemView.findViewById(R.id.video_date);
-            videoCardView = itemView.findViewById(R.id.video_cardview);
+            videoRelativeLayout = itemView.findViewById(R.id.video_cardview);
         }
     }
 
@@ -74,7 +75,7 @@ public class VideoAdapter extends PagedListAdapter<VideoModel,VideoAdapter.Video
         final VideoViewHolder videoViewHolder = new VideoViewHolder(view);
 
         //video onclick methodu
-        videoViewHolder.videoCardView.setOnClickListener(new View.OnClickListener() {
+        videoViewHolder.videoRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
             }
@@ -99,10 +100,6 @@ public class VideoAdapter extends PagedListAdapter<VideoModel,VideoAdapter.Video
     }
 
 
-    public VideoModel getVideoAt(int position) {
-        return getItem(position);
-    }
-
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
     final VideoModel selectedVideo = getItem(position);
@@ -116,6 +113,7 @@ public class VideoAdapter extends PagedListAdapter<VideoModel,VideoAdapter.Video
             Glide.with(mContext).load(selectedVideo.getVideoImageURL())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .centerCrop()
+                    .apply(new RequestOptions().override(1000, 550))
                     .into(holder.videoThumbnail);
 
             holder.videoTitle.setText(Html.fromHtml(selectedVideo.getVideoTitle()));

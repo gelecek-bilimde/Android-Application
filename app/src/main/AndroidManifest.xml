@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.YoutubeVideoActivity"></activity>
+        <activity android:name=".Activities.YoutubeVideoActivity" />
         <activity
             android:name=".Activities.ArticleReadActivity"
             android:label="@string/title_activity_article_read"
@@ -24,6 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

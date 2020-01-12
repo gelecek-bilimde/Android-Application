@@ -2,6 +2,8 @@ package com.gelecekbilimde.gelecekbilimde.Fragments.video;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.gelecekbilimde.gelecekbilimde.Activities.MainActivity;
 import com.gelecekbilimde.gelecekbilimde.Adapters.VideoAdapter;
 import com.gelecekbilimde.gelecekbilimde.Models.VideoModel;
 import com.gelecekbilimde.gelecekbilimde.R;
@@ -29,6 +32,12 @@ public class VideoFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private VideoAdapter videoAdapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -44,8 +53,7 @@ public class VideoFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //videoViewModel.deleteAllVideos();
-                videoViewModel.getTenVideosFromFirebase();
+                videoViewModel.deleteAllVideos();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -57,8 +65,13 @@ public class VideoFragment extends Fragment {
             }
         });
 
-
-
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.findItem(R.id.action_search).setVisible(false);
+        super.onCreateOptionsMenu(menu, inflater);
+        ((MainActivity)getActivity()).setTitle("Videolar");
     }
 }

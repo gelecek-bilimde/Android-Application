@@ -1,20 +1,17 @@
 package com.gelecekbilimde.gelecekbilimde.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
 
-import androidx.core.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.PagedListAdapter;
@@ -52,7 +49,7 @@ public class ArticleAdapter extends PagedListAdapter<ArticleModel,ArticleAdapter
         @Override
         public boolean areContentsTheSame(@NonNull ArticleModel oldItem, @NonNull ArticleModel newItem) {
 
-            return oldItem.getArticleTitle().equals(newItem.getArticleTitle());
+            return oldItem.getArticleTitle().equals(newItem.getArticleTitle()) && oldItem.isBookmarked()==newItem.isBookmarked();
         }
     };
 
@@ -62,7 +59,7 @@ public class ArticleAdapter extends PagedListAdapter<ArticleModel,ArticleAdapter
         public TextView articleHeadline;
         public TextView articledescription;
         public TextView articleDate;
-        private CardView articleCardView;
+        private RelativeLayout articleRelativeLay;
 
         public ArticleViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,7 +68,7 @@ public class ArticleAdapter extends PagedListAdapter<ArticleModel,ArticleAdapter
             articleHeadline = itemView.findViewById(R.id.article_headline);
             articledescription = itemView.findViewById(R.id.article_desc);
             articleDate = itemView.findViewById(R.id.article_date);
-            articleCardView = itemView.findViewById(R.id.article_cardview);
+            articleRelativeLay = itemView.findViewById(R.id.article_cardview);
         }
     }
 
@@ -83,7 +80,7 @@ public class ArticleAdapter extends PagedListAdapter<ArticleModel,ArticleAdapter
         final ArticleViewHolder articleViewHolder = new ArticleViewHolder(view);
 
         //article cardview onclick methodu
-        articleViewHolder.articleCardView.setOnClickListener(new View.OnClickListener() {
+        articleViewHolder.articleRelativeLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -126,7 +123,7 @@ public class ArticleAdapter extends PagedListAdapter<ArticleModel,ArticleAdapter
         holder.articleHeadline.setText(Html.fromHtml(currentArticle.getArticleTitle()));
 
         // cardview onclick
-        holder.articleCardView.setOnClickListener(new View.OnClickListener() {
+        holder.articleRelativeLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

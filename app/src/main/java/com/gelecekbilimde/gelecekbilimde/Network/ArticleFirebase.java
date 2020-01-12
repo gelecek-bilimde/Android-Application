@@ -7,6 +7,9 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.paging.DataSource;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 
 import com.gelecekbilimde.gelecekbilimde.Models.ArticleModel;
 import com.gelecekbilimde.gelecekbilimde.Repository.ArticleRepository;
@@ -25,12 +28,14 @@ import static android.content.ContentValues.TAG;
 public class ArticleFirebase {
     DatabaseReference myRef;
     FirebaseDatabase database ;
+    private MutableLiveData<PagedList<ArticleModel>> searchedArticles = new MutableLiveData<>();
     private String lastkey="";
 
     public ArticleFirebase() {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Articles");
     }
+
 
     public void getTenArticlesFromFirebase(final ArticleRepository articleRepository) {
         Query query ;

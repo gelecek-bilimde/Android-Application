@@ -25,6 +25,13 @@ public class VideoItemBoundaryCallback extends PagedList.BoundaryCallback<VideoM
     }
 
     @Override
+    public void onZeroItemsLoaded() {
+        super.onZeroItemsLoaded();
+        repository.getTenVideosFromFirebase();
+
+    }
+
+    @Override
     public void onItemAtEndLoaded(@NonNull VideoModel itemAtEnd) {
         super.onItemAtEndLoaded(itemAtEnd);
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Videos");

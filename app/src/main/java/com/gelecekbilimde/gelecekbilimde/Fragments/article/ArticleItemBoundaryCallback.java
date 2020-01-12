@@ -21,6 +21,14 @@ public class ArticleItemBoundaryCallback extends PagedList.BoundaryCallback<Arti
         this.repository =repository;
     }
 
+
+    @Override
+    public void onZeroItemsLoaded() {
+        super.onZeroItemsLoaded();
+        System.out.println("teooo onzero");
+        repository.getTenArticlesFromFirebase();
+    }
+
     @Override
     public void onItemAtEndLoaded(@NonNull ArticleModel itemAtEnd) {
         super.onItemAtEndLoaded(itemAtEnd);

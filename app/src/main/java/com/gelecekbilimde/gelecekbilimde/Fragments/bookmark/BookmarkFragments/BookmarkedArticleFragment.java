@@ -42,7 +42,6 @@ public class BookmarkedArticleFragment extends Fragment {
 
         mRecyclerview = v.findViewById(R.id.bookmarked_article_recycler);
         mRecyclerview.setHasFixedSize(true) ;
-        mRecyclerview.addItemDecoration(new DividerItemDecoration(mRecyclerview.getContext(), DividerItemDecoration.VERTICAL));
         mAdapter = new ArticleAdapter(getContext());
         mRecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerview.setAdapter(mAdapter);

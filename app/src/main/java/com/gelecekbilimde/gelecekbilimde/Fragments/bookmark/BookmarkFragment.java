@@ -2,14 +2,18 @@ package com.gelecekbilimde.gelecekbilimde.Fragments.bookmark;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
+import com.gelecekbilimde.gelecekbilimde.Activities.MainActivity;
 import com.gelecekbilimde.gelecekbilimde.Adapters.BookmarkTablayoutAdapter;
 import com.gelecekbilimde.gelecekbilimde.R;
 import com.gelecekbilimde.gelecekbilimde.Fragments.bookmark.BookmarkFragments.BookmarkedArticleFragment;
@@ -24,6 +28,12 @@ public class BookmarkFragment extends Fragment {
     BookmarkTablayoutAdapter bookmarkTablayoutAdapter;
     private BookmarkViewModel bookmarkViewModel;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         bookmarkViewModel =
@@ -34,8 +44,8 @@ public class BookmarkFragment extends Fragment {
         viewPager = view.findViewById(R.id.bookmark_viewpager);
         bookmarkTablayoutAdapter = new BookmarkTablayoutAdapter( getChildFragmentManager());
 
-        bookmarkTablayoutAdapter.addFragment(new BookmarkedArticleFragment(), "Articles");
-        bookmarkTablayoutAdapter.addFragment(new BookmarkedVideoFragment(), "Videos");
+        bookmarkTablayoutAdapter.addFragment(new BookmarkedArticleFragment(), "Makaleler");
+        bookmarkTablayoutAdapter.addFragment(new BookmarkedVideoFragment(), "Videolar");
 
         viewPager.setAdapter(bookmarkTablayoutAdapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -43,4 +53,10 @@ public class BookmarkFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.findItem(R.id.action_search).setVisible(false);
+        super.onCreateOptionsMenu(menu, inflater);
+        ((MainActivity)getActivity()).setTitle("Kaydedilenler");
+    }
 }

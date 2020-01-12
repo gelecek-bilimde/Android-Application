@@ -7,10 +7,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.DataSource;
@@ -19,9 +24,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.gelecekbilimde.gelecekbilimde.Activities.MainActivity;
 import com.gelecekbilimde.gelecekbilimde.R;
 import com.gelecekbilimde.gelecekbilimde.Adapters.ArticleAdapter;
 import com.gelecekbilimde.gelecekbilimde.Models.ArticleModel;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.List;
 
@@ -32,7 +39,14 @@ public class ArticleFragment extends Fragment {
     private ArticleAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LinearLayoutManager manager;
+    public static MutableLiveData<String> title = new MutableLiveData<>();
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -45,8 +59,14 @@ public class ArticleFragment extends Fragment {
         mAdapter = new ArticleAdapter(getContext());
         mRecyclerview.setAdapter(mAdapter);
         articleViewModel = ViewModelProviders.of(this).get(ArticleViewModel.class);
+        articleViewModel.filterTextAll.setValue("");
 
-        articleViewModel.getTenArticlesfromfirebase();
+        title.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                articleViewModel.filterTextAll.postValue(s);
+            }
+        });
 
         articleViewModel.getAllArticles().observe(this, new Observer<PagedList<ArticleModel>>() {
             @Override
@@ -58,11 +78,8 @@ public class ArticleFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
                 articleViewModel.deleteAllArticles();
-
-                articleViewModel.getTenArticlesfromfirebase();
-
+                manager.scrollToPosition(0);
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -70,13 +87,9 @@ public class ArticleFragment extends Fragment {
         return view;
     }
 
-
-
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
-        inflater.inflate(R.menu.article_search_menu,menu);
-        MenuItem item = menu.findItem(R.id.search_view_item);
+        super.onCreateOptionsMenu(menu, inflater);
+        ((MainActivity)getActivity()).setTitle("Makaleler");
     }
 }

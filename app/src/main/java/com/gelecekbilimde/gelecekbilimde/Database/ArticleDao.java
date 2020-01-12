@@ -34,4 +34,6 @@ public interface ArticleDao {
     @Query("Select * from article_table where bookmarked=1")
     DataSource.Factory<Integer, ArticleModel> getAllBookmarkedArticles();
 
+    @Query("SELECT * FROM article_table where articleTitle LIKE  :name order by articleDate desc")
+    DataSource.Factory<Integer, ArticleModel> getAllArticlesByTitle(String name);
 }

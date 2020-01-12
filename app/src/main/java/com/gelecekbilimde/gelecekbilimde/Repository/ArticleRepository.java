@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
@@ -58,7 +59,6 @@ public class ArticleRepository {
     public void getTenArticlesFromFirebase(){
         articleFirebase.getTenArticlesFromFirebase(this);
     }
-
 
 
 

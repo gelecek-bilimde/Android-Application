@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.gelecekbilimde.gelecekbilimde.Activities.MainActivity;
 import com.gelecekbilimde.gelecekbilimde.R;
 
 import java.util.ArrayList;
@@ -28,9 +31,16 @@ public class ProfileFragment extends Fragment {
     private ViewPager viewPager;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
 
         context = getContext();
         setupSettingList(view);
@@ -49,7 +59,7 @@ public class ProfileFragment extends Fragment {
         settings.add("Support us");
         settings.add("Sign Out");
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(context,android.R.layout.simple_list_item_1,settings);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(context,R.layout.simple_list_item_white,settings);
         listView.setAdapter(arrayAdapter);
 
 
@@ -63,5 +73,10 @@ public class ProfileFragment extends Fragment {
 
     }
 
-
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.findItem(R.id.action_search).setVisible(false);
+        super.onCreateOptionsMenu(menu, inflater);
+        ((MainActivity)getActivity()).setTitle("Profil");
+    }
 }
