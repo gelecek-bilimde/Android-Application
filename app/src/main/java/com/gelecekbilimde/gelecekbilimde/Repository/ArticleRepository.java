@@ -4,22 +4,17 @@ import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;
-import androidx.paging.LivePagedListBuilder;
-import androidx.paging.PagedList;
 
 import com.gelecekbilimde.gelecekbilimde.Database.ArticleDao;
 import com.gelecekbilimde.gelecekbilimde.Database.MyDatabase;
 import com.gelecekbilimde.gelecekbilimde.Models.ArticleModel;
 import com.gelecekbilimde.gelecekbilimde.Network.ArticleFirebase;
 
-import java.util.List;
-
 public class ArticleRepository {
 
     private ArticleDao dao;
+
     private DataSource.Factory<Integer, ArticleModel> allArticles;
     private DataSource.Factory<Integer, ArticleModel> allBookmarkedArticles;
     private ArticleFirebase articleFirebase;
@@ -28,6 +23,8 @@ public class ArticleRepository {
     public ArticleRepository(Application application) {
         MyDatabase database = MyDatabase.getInstance(application);
         dao = database.articleDao();
+
+
         articleFirebase = new ArticleFirebase();
         allArticles = dao.getAllArticles();
         allBookmarkedArticles = dao.getAllBookmarkedArticles();
@@ -75,6 +72,7 @@ public class ArticleRepository {
             return null;
         }
     }
+
     private static class UpdateArticleAsync  extends AsyncTask<ArticleModel,Void,Void>{
         private ArticleDao dao;
 

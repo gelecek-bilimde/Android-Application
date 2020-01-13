@@ -19,7 +19,6 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 public class VideoItemBoundaryCallback extends PagedList.BoundaryCallback<VideoModel> {
 
     private VideoRepository repository;
-    String TAG ="teooo";
     public VideoItemBoundaryCallback(VideoRepository videoRepository) {
         this.repository = videoRepository;
     }
@@ -37,14 +36,13 @@ public class VideoItemBoundaryCallback extends PagedList.BoundaryCallback<VideoM
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Videos");
         
 
-        Query query = myRef.orderByChild("videoDate").endAt(itemAtEnd.getVideoDate()).limitToLast(5);
+        Query query = myRef.orderByChild("videoDate").endAt(itemAtEnd.getVideoDate()).limitToLast(3);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 VideoModel videoModel;
                 if (dataSnapshot.hasChildren()) {
                     for (DataSnapshot each: dataSnapshot.getChildren()) {
-                        Log.d(TAG, "onDataChange: "+each.getValue());
                         videoModel= each.getValue(VideoModel.class);
                         repository.insertVideo(videoModel);
                     }

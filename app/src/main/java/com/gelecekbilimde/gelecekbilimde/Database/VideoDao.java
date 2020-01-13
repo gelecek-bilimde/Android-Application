@@ -9,6 +9,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.gelecekbilimde.gelecekbilimde.Models.ArticleModel;
 import com.gelecekbilimde.gelecekbilimde.Models.VideoModel;
 
 import java.util.List;
@@ -30,4 +31,7 @@ public interface VideoDao {
 
     @Query("Select * From video_table order by videoDate desc")
     DataSource.Factory<Integer, VideoModel> getAllVideos();
+
+    @Query("Select * from video_table where bookmarked=1")
+    DataSource.Factory<Integer, VideoModel> getAllBookmarkedVideos();
 }

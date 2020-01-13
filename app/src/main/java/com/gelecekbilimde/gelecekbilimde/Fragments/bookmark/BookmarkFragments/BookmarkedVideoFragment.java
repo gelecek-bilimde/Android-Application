@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,10 +24,9 @@ import java.util.List;
 
 public class BookmarkedVideoFragment extends Fragment {
 
-    private List<VideoModel> videos = new ArrayList<>();
     private RecyclerView mRecyclerview;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private VideoAdapter mAdapter;
+    private BookmarkedVideoViewModel videoViewModel;
 
 
     public BookmarkedVideoFragment() {
@@ -38,11 +40,20 @@ public class BookmarkedVideoFragment extends Fragment {
         mRecyclerview = v.findViewById(R.id.bookmarked_video_recycler);
         mRecyclerview.setHasFixedSize(true) ;
         mRecyclerview.addItemDecoration(new DividerItemDecoration(mRecyclerview.getContext(), DividerItemDecoration.VERTICAL));
-        mLayoutManager  = new LinearLayoutManager(getActivity());
         mAdapter = new VideoAdapter(getContext());
-
-        mRecyclerview.setLayoutManager(mLayoutManager);
+        mRecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerview.setAdapter(mAdapter);
+
+        videoViewModel = ViewModelProviders.of(this).get(BookmarkedVideoViewModel.class);
+
+        videoViewModel.getAllBookmarkedVideos().observe(this, new Observer<PagedList<VideoModel>>() {
+            @Override
+            public void onChanged(PagedList<VideoModel> videoModels) {
+                mAdapter.submitList(videoModels);
+            }
+        });
+
+
         return v;
     }
 

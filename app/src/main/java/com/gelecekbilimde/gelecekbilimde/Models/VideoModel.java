@@ -1,5 +1,6 @@
 package com.gelecekbilimde.gelecekbilimde.Models;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -7,14 +8,16 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "video_table")
 public class VideoModel {
 
-    @PrimaryKey(autoGenerate = true)
-    private int videoId;
+
+
     private String videoImageURL;
     private String videoTitle;
     private String videoDate;
     private String videoDesc;
-    private boolean bookmarked;
+    @NonNull
+    @PrimaryKey
     private String videoURLId;
+    private boolean bookmarked;
 
     @Ignore
     public VideoModel() {
@@ -31,13 +34,6 @@ public class VideoModel {
 
     }
 
-    public int getVideoId() {
-        return videoId;
-    }
-
-    public void setVideoId(int videoId) {
-        this.videoId = videoId;
-    }
 
     public String getVideoImageURL() {
         return videoImageURL;

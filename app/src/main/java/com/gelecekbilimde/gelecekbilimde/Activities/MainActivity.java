@@ -59,12 +59,13 @@ public class MainActivity extends AppCompatActivity {
         materialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                ArticleFragment.title.postValue(query);
                  return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                ArticleFragment.title.postValue(newText);
+
                 return false;
             }
         });

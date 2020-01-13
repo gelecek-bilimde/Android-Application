@@ -11,6 +11,7 @@ import androidx.paging.DataSource;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
+import com.gelecekbilimde.gelecekbilimde.Fragments.article.ArticleViewModel;
 import com.gelecekbilimde.gelecekbilimde.Models.ArticleModel;
 import com.gelecekbilimde.gelecekbilimde.Repository.ArticleRepository;
 import com.google.firebase.database.DataSnapshot;
@@ -28,7 +29,6 @@ import static android.content.ContentValues.TAG;
 public class ArticleFirebase {
     DatabaseReference myRef;
     FirebaseDatabase database ;
-    private MutableLiveData<PagedList<ArticleModel>> searchedArticles = new MutableLiveData<>();
     private String lastkey="";
 
     public ArticleFirebase() {
@@ -38,12 +38,7 @@ public class ArticleFirebase {
 
 
     public void getTenArticlesFromFirebase(final ArticleRepository articleRepository) {
-        Query query ;
-        if (TextUtils.isEmpty(lastkey)) {
-            query = myRef.orderByChild("articleDate").limitToLast(10);
-        } else {
-            query = myRef.orderByChild("articleDate").limitToLast(10);
-        }
+        Query query = myRef.orderByChild("articleDate").limitToLast(10);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -53,6 +48,7 @@ public class ArticleFirebase {
                     for (DataSnapshot each: dataSnapshot.getChildren()) {
                         articleModel= each.getValue(ArticleModel.class);
                         articleRepository.insertArticle(articleModel);
+                        ArticleViewModel.isLoading.postValue(false);
                         lastkey = each.getKey();
                     }
                 }

@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +22,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.gelecekbilimde.gelecekbilimde.Activities.YoutubeVideoActivity;
+import com.gelecekbilimde.gelecekbilimde.Fragments.video.VideoViewModel;
+import com.gelecekbilimde.gelecekbilimde.Models.ArticleModel;
 import com.gelecekbilimde.gelecekbilimde.R;
 import com.gelecekbilimde.gelecekbilimde.Models.VideoModel;
 
@@ -29,10 +34,12 @@ import java.util.Date;
 public class VideoAdapter extends PagedListAdapter<VideoModel,VideoAdapter.VideoViewHolder> {
 
     Context mContext;
+    VideoViewModel videoViewModel;
 
     public VideoAdapter(Context context) {
         super(callback);
         this.mContext = context;
+        videoViewModel = ViewModelProviders.of((FragmentActivity)context).get(VideoViewModel.class);
     }
 
     private static final DiffUtil.ItemCallback<VideoModel> callback = new DiffUtil.ItemCallback<VideoModel>() {
@@ -81,20 +88,6 @@ public class VideoAdapter extends PagedListAdapter<VideoModel,VideoAdapter.Video
             }
         });
 
-        //bookmark onclick method
-        videoViewHolder.videoBookmarkLogo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               if( getItem(videoViewHolder.getAdapterPosition()).isBookmarked()){
-                   getItem(videoViewHolder.getAdapterPosition()).setBookmarked(false);
-                   videoViewHolder.videoBookmarkLogo.setImageResource(R.drawable.bookmark_unchecked);
-               }else{
-                   getItem(videoViewHolder.getAdapterPosition()).setBookmarked(true);
-                   videoViewHolder.videoBookmarkLogo.setImageResource(R.drawable.bookmark_checked);
-               }
-
-            }
-        });
 
         return videoViewHolder;
     }
@@ -102,8 +95,8 @@ public class VideoAdapter extends PagedListAdapter<VideoModel,VideoAdapter.Video
 
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
-    final VideoModel selectedVideo = getItem(position);
-
+        final VideoModel selectedVideo = getItem(position);
+        if(selectedVideo!=null){
         if (selectedVideo != null) {
             if (selectedVideo.getVideoDate() != null) {
                 String sdf = calculateDate(selectedVideo.getVideoDate());
@@ -119,15 +112,48 @@ public class VideoAdapter extends PagedListAdapter<VideoModel,VideoAdapter.Video
             holder.videoTitle.setText(Html.fromHtml(selectedVideo.getVideoTitle()));
         }
 
+
+        if (selectedVideo.isBookmarked()) {
+            holder.videoBookmarkLogo.setImageResource(R.drawable.bookmark_checked);
+        } else {
+            holder.videoBookmarkLogo.setImageResource(R.drawable.bookmark_unchecked);
+        }
+
+        holder.videoBookmarkLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!selectedVideo.isBookmarked()) {
+                    setBookmarkedTrue(selectedVideo);
+                } else {
+                    setBookmarkFalse(selectedVideo);
+                }
+
+            }
+
+            private void setBookmarkFalse(VideoModel currentVideo) {
+                currentVideo.setBookmarked(false);
+                videoViewModel.updateVideo(currentVideo);
+                holder.videoBookmarkLogo.setImageResource(R.drawable.bookmark_unchecked);
+            }
+
+            private void setBookmarkedTrue(VideoModel currentVideo) {
+                currentVideo.setBookmarked(true);
+                videoViewModel.updateVideo(currentVideo);
+                holder.videoBookmarkLogo.setImageResource(R.drawable.bookmark_checked);
+            }
+        });
+
+        // video onclick
         holder.videoThumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, YoutubeVideoActivity.class);
-                intent.putExtra("VIDEO_URL",selectedVideo.getVideoURLId());
+                intent.putExtra("VIDEO_URL", selectedVideo.getVideoURLId());
                 mContext.startActivity(intent);
             }
         });
-
+    }
     }
 
     private String calculateDate(String videoDate) {

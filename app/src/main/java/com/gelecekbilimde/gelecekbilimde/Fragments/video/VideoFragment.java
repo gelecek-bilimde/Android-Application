@@ -32,6 +32,7 @@ public class VideoFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private VideoAdapter videoAdapter;
+    private LinearLayoutManager manager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,15 +47,27 @@ public class VideoFragment extends Fragment {
         videoViewModel = ViewModelProviders.of(this).get(VideoViewModel.class);
         recyclerView = view.findViewById(R.id.video_recycler);
         swipeRefreshLayout = view.findViewById(R.id.videos_swipe);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        manager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(manager);
         videoAdapter = new VideoAdapter(getContext());
         recyclerView.setAdapter(videoAdapter);
+
+
+
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                videoViewModel.deleteAllVideos();
-                swipeRefreshLayout.setRefreshing(false);
+               // videoViewModel.deleteAllVideos();
+                manager.scrollToPosition(0);
+                refreshVideoFeed();
+            }
+        });
+
+        videoViewModel.isLoading.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                swipeRefreshLayout.setRefreshing(aBoolean);
             }
         });
 
@@ -66,6 +79,11 @@ public class VideoFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void refreshVideoFeed() {
+        videoViewModel.isLoading.postValue(true);
+        videoViewModel.getTenVideosFromFirebase();
     }
 
     @Override

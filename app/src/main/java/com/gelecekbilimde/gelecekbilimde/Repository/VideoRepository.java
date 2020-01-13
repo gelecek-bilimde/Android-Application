@@ -7,12 +7,14 @@ import androidx.paging.DataSource;
 
 import com.gelecekbilimde.gelecekbilimde.Database.MyDatabase;
 import com.gelecekbilimde.gelecekbilimde.Database.VideoDao;
+import com.gelecekbilimde.gelecekbilimde.Models.ArticleModel;
 import com.gelecekbilimde.gelecekbilimde.Models.VideoModel;
 import com.gelecekbilimde.gelecekbilimde.Network.VideoFirebase;
 
 public class VideoRepository {
     private VideoDao dao;
     private DataSource.Factory<Integer,VideoModel> allVideos;
+    private DataSource.Factory<Integer, VideoModel> allBookmarkedVideos;
     private VideoFirebase videoFirebase;
 
     public VideoRepository(Application application){
@@ -20,6 +22,7 @@ public class VideoRepository {
         dao = database.videoDao();
         videoFirebase = new VideoFirebase();
         allVideos = dao.getAllVideos();
+        allBookmarkedVideos = dao.getAllBookmarkedVideos();
     }
     public void insertVideo(VideoModel video) {
         new InsertVideoAsync(dao).execute(video);
@@ -38,9 +41,14 @@ public class VideoRepository {
         return allVideos;
     }
 
+    public DataSource.Factory<Integer,VideoModel> getAllBookmarkedVideos(){
+        return allBookmarkedVideos;
+    }
+
     public void getTenVideosFromFirebase() {
         videoFirebase.getTenArticlesFromFirebase(this);
     }
+
 
 
     private static class InsertVideoAsync extends AsyncTask<VideoModel,Void,Void> {
@@ -53,7 +61,7 @@ public class VideoRepository {
         @Override
         protected Void doInBackground(VideoModel... videoModels) {
             dao.insertVideo(videoModels[0]);
-            return null;
+              return null;
         }
     }
     private static class UpdateVideoAsync extends AsyncTask<VideoModel,Void,Void>{

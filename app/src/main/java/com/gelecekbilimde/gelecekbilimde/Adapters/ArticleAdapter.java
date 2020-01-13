@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -112,6 +113,7 @@ public class ArticleAdapter extends PagedListAdapter<ArticleModel,ArticleAdapter
                     .circleCrop()
                     .into(holder.articleImage);
         }
+
         if (currentArticle.isBookmarked()) {
             holder.articleBookmarkImage.setImageResource(R.drawable.bookmark_checked);
         } else {
@@ -119,8 +121,16 @@ public class ArticleAdapter extends PagedListAdapter<ArticleModel,ArticleAdapter
         }
 
         holder.articleDate.setText(finalDateTime);
-        holder.articledescription.setText(Html.fromHtml(currentArticle.getArticleDesc()));
-        holder.articleHeadline.setText(Html.fromHtml(currentArticle.getArticleTitle()));
+
+        try {
+            holder.articledescription.setText(Html.fromHtml(currentArticle.getArticleDesc()));
+            holder.articleHeadline.setText(Html.fromHtml(currentArticle.getArticleTitle()));
+        } catch (Exception e) {
+            holder.articledescription.setText(" ");
+            holder.articleHeadline.setText(" ");
+        }
+
+
 
         // cardview onclick
         holder.articleRelativeLay.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +145,8 @@ public class ArticleAdapter extends PagedListAdapter<ArticleModel,ArticleAdapter
             }
         });
 
+
+        // bookmark click event
         holder.articleBookmarkImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

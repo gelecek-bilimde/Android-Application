@@ -29,6 +29,7 @@ public class ArticleModel {
         this.articleImageURL = articleImageURL;
         this.articleTitle = articleTitle;
         this.bookmarked = bookmarked;
+
     }
 
     public int getArticleId() {
@@ -50,6 +51,8 @@ public class ArticleModel {
     public String getArticleBody() {
         return articleBody;
     }
+
+
 
     public void setArticleBody(String articleBody) {
         this.articleBody = articleBody;

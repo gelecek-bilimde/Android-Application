@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
+import com.gelecekbilimde.gelecekbilimde.Fragments.video.VideoViewModel;
 import com.gelecekbilimde.gelecekbilimde.Models.ArticleModel;
 import com.gelecekbilimde.gelecekbilimde.Models.VideoModel;
 import com.gelecekbilimde.gelecekbilimde.Repository.ArticleRepository;
@@ -26,7 +27,7 @@ public class VideoFirebase {
     }
 
     public void getTenArticlesFromFirebase(final VideoRepository videoRepository) {
-        Query query = myRef.orderByChild("videoDate").limitToLast(10);
+        Query query = myRef.orderByChild("videoDate").limitToLast(5);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -36,6 +37,8 @@ public class VideoFirebase {
                     for (DataSnapshot each: dataSnapshot.getChildren()) {
                         videoModel= each.getValue(VideoModel.class);
                         videoRepository.insertVideo(videoModel);
+                        VideoViewModel.isLoading.postValue(false);
+                        lastKey =each.getKey();
                     }
                 }
 

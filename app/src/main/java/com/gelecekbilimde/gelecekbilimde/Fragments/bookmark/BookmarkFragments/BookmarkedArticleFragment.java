@@ -30,7 +30,7 @@ public class BookmarkedArticleFragment extends Fragment {
 
     private RecyclerView mRecyclerview;
     private ArticleAdapter mAdapter;
-    BookmarkedArticleViewModel articleViewModel;
+    private BookmarkedArticleViewModel articleViewModel;
 
     public BookmarkedArticleFragment() {
     }
@@ -48,12 +48,10 @@ public class BookmarkedArticleFragment extends Fragment {
 
         articleViewModel = ViewModelProviders.of(this).get(BookmarkedArticleViewModel.class);
 
-        final String TAG = "teoooo";
 
         articleViewModel.getAllBookmarkedArticles().observe(this, new Observer<PagedList<ArticleModel>>() {
             @Override
             public void onChanged(PagedList<ArticleModel> articleModels) {
-                Log.d(TAG, "onChanged: ");
                 mAdapter.submitList(articleModels);
             }
         });

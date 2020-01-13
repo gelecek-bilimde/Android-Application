@@ -40,7 +40,7 @@ public class ArticleFragment extends Fragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LinearLayoutManager manager;
     public static MutableLiveData<String> title = new MutableLiveData<>();
-
+    private boolean isloadedBefore = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,14 +59,12 @@ public class ArticleFragment extends Fragment {
         mAdapter = new ArticleAdapter(getContext());
         mRecyclerview.setAdapter(mAdapter);
         articleViewModel = ViewModelProviders.of(this).get(ArticleViewModel.class);
-        articleViewModel.filterTextAll.setValue("");
 
-        title.observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                articleViewModel.filterTextAll.postValue(s);
-            }
-        });
+        if (!isloadedBefore) {
+            refreshArticleFeed();
+            isloadedBefore=true;
+        }
+
 
         articleViewModel.getAllArticles().observe(this, new Observer<PagedList<ArticleModel>>() {
             @Override
@@ -78,17 +76,31 @@ public class ArticleFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                articleViewModel.deleteAllArticles();
+                //articleViewModel.deleteAllArticles();
                 manager.scrollToPosition(0);
-                mSwipeRefreshLayout.setRefreshing(false);
+                refreshArticleFeed();
+
+            }
+        });
+
+        articleViewModel.isLoading.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                mSwipeRefreshLayout.setRefreshing(aBoolean);
             }
         });
 
         return view;
     }
 
+    private void refreshArticleFeed() {
+        articleViewModel.isLoading.postValue(true);
+        articleViewModel.getTenArticlesfromfirebase();
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.findItem(R.id.action_search).setVisible(false);
         super.onCreateOptionsMenu(menu, inflater);
         ((MainActivity)getActivity()).setTitle("Makaleler");
     }
