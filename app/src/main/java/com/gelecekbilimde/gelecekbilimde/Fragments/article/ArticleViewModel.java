@@ -49,8 +49,8 @@ public class ArticleViewModel extends AndroidViewModel {
         return allArticles;
     }
 
-    public void getTenArticlesfromfirebase() {
-        articleRepository.getTenArticlesFromFirebase();
+    public void getTenArticlesfromFirebaseAndRetrofit(int page) {
+        articleRepository.getTenArticlesfromFirebaseAndRetrofit(page);
     }
 
 

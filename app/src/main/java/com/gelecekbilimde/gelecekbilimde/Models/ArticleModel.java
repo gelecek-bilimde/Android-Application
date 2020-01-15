@@ -7,24 +7,35 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "article_table")
 public class ArticleModel {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     private int articleId;
     private String articleDate;
     private String articleImageURL;
     private String articleTitle;
     private String articleDesc;
+    private int page;
     private boolean bookmarked;
 
     @Ignore
     public ArticleModel() {
     }
 
-    public ArticleModel(  String articleDate, String articleDesc, String articleImageURL, String articleTitle, boolean bookmarked) {
+    public ArticleModel( int articleId, String articleDate, String articleDesc, String articleImageURL, String articleTitle, boolean bookmarked, int page) {
+        this.articleId = articleId;
         this.articleDate = articleDate;
         this.articleImageURL = articleImageURL;
         this.articleTitle = articleTitle;
         this.bookmarked = bookmarked;
         this.articleDesc = articleDesc;
+        this.page = page;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
     }
 
     public int getArticleId() {
@@ -34,7 +45,6 @@ public class ArticleModel {
     public void setArticleId(int articleId) {
         this.articleId = articleId;
     }
-
 
     public String getArticleDate() {
         return articleDate;

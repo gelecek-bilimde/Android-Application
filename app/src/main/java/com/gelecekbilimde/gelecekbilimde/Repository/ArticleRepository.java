@@ -9,7 +9,7 @@ import androidx.paging.DataSource;
 import com.gelecekbilimde.gelecekbilimde.Database.ArticleDao;
 import com.gelecekbilimde.gelecekbilimde.Database.MyDatabase;
 import com.gelecekbilimde.gelecekbilimde.Models.ArticleModel;
-import com.gelecekbilimde.gelecekbilimde.Network.ArticleFirebase;
+import com.gelecekbilimde.gelecekbilimde.Network.ArticleFirebaseAndRetrofit;
 
 public class ArticleRepository {
 
@@ -17,7 +17,7 @@ public class ArticleRepository {
 
     private DataSource.Factory<Integer, ArticleModel> allArticles;
     private DataSource.Factory<Integer, ArticleModel> allBookmarkedArticles;
-    private ArticleFirebase articleFirebase;
+    private ArticleFirebaseAndRetrofit articleFirebaseAndRetrofit;
 
 
     public ArticleRepository(Application application) {
@@ -25,7 +25,7 @@ public class ArticleRepository {
         dao = database.articleDao();
 
 
-        articleFirebase = new ArticleFirebase();
+        articleFirebaseAndRetrofit = new ArticleFirebaseAndRetrofit();
         allArticles = dao.getAllArticles();
         allBookmarkedArticles = dao.getAllBookmarkedArticles();
     }
@@ -53,8 +53,8 @@ public class ArticleRepository {
         return allBookmarkedArticles;
     }
 
-    public void getTenArticlesFromFirebase(){
-        articleFirebase.getTenArticlesFromFirebase(this);
+    public void getTenArticlesfromFirebaseAndRetrofit(int page){
+        articleFirebaseAndRetrofit.getTenArticlesfromFirebaseAndRetrofit(this,page);
     }
 
 
