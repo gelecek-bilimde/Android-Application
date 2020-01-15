@@ -10,7 +10,7 @@ import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.gelecekbilimde.gelecekbilimde.Models.RetrofitArticleModel;
+import com.gelecekbilimde.gelecekbilimde.Models.RetrofitArticleBodyModel;
 import com.gelecekbilimde.gelecekbilimde.Network.RetrofitArticleAPI;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -107,17 +107,17 @@ public class ArticleReadActivity extends AppCompatActivity implements Html.Image
 
         RetrofitArticleAPI api = retrofit.create(RetrofitArticleAPI.class);
 
-        Call<RetrofitArticleModel> call = api.getPost(articleID);
+        Call<RetrofitArticleBodyModel> call = api.getPost(articleID);
 
-        call.enqueue(new Callback<RetrofitArticleModel>() {
+        call.enqueue(new Callback<RetrofitArticleBodyModel>() {
             @Override
-            public void onResponse(Call<RetrofitArticleModel> call, Response<RetrofitArticleModel> response) {
+            public void onResponse(Call<RetrofitArticleBodyModel> call, Response<RetrofitArticleBodyModel> response) {
 
                 if (!response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(),"Hata: " + response.code(),Toast.LENGTH_LONG).show();
                 } else {
                     progressBar.setVisibility(View.GONE);
-                    RetrofitArticleModel model = response.body();
+                    RetrofitArticleBodyModel model = response.body();
                     String body = model.getContent().getRendered();
                     body = body.replace("<figcaption>", "<br><figcaption>");
 
@@ -140,7 +140,7 @@ public class ArticleReadActivity extends AppCompatActivity implements Html.Image
             }
 
             @Override
-            public void onFailure(Call<RetrofitArticleModel> call, Throwable t) {
+            public void onFailure(Call<RetrofitArticleBodyModel> call, Throwable t) {
 
             }
         });

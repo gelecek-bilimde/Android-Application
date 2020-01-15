@@ -14,6 +14,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class ArticleItemBoundaryCallback extends PagedList.BoundaryCallback<ArticleModel> {
     ArticleRepository repository;
 
@@ -25,13 +28,24 @@ public class ArticleItemBoundaryCallback extends PagedList.BoundaryCallback<Arti
     @Override
     public void onZeroItemsLoaded() {
         super.onZeroItemsLoaded();
-        repository.getTenArticlesFromFirebase();
+        repository.getTenArticlesfromFirebaseAndRetrofit(1);
     }
 
     @Override
     public void onItemAtEndLoaded(@NonNull ArticleModel itemAtEnd) {
         super.onItemAtEndLoaded(itemAtEnd);
 
+        int page=0;
+        if (itemAtEnd.getPage() == 0) {
+            page = itemAtEnd.getPage() + 2;
+        } else {
+            page = itemAtEnd.getPage()+1;
+        }
+
+        System.out.println("teooo"+itemAtEnd.getPage());
+       repository.getTenArticlesfromFirebaseAndRetrofit(page);
+
+        /*
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Articles");
 
         Query query = myRef.orderByChild("articleDate").endAt(itemAtEnd.getArticleDate()).limitToLast(5);
@@ -53,7 +67,7 @@ public class ArticleItemBoundaryCallback extends PagedList.BoundaryCallback<Arti
             }
 
 
-        });
+        });*/
 
     }
 }

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class RetrofitArticleModel {
+public class RetrofitArticleBodyModel {
 
     @SerializedName("content")
     @Expose

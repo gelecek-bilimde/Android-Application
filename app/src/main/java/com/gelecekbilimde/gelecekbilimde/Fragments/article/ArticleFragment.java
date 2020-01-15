@@ -95,7 +95,7 @@ public class ArticleFragment extends Fragment {
 
     private void refreshArticleFeed() {
         articleViewModel.isLoading.postValue(true);
-        articleViewModel.getTenArticlesfromfirebase();
+        articleViewModel.getTenArticlesfromFirebaseAndRetrofit(1);
     }
 
     @Override

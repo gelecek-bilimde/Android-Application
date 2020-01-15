@@ -107,12 +107,17 @@ public class ArticleAdapter extends PagedListAdapter<ArticleModel,ArticleAdapter
         } catch (ParseException e) { e.printStackTrace(); }
 
 
-        if (!(currentArticle.getArticleImageURL().matches("null"))) {
-            Glide.with(mContext).load(currentArticle.getArticleImageURL())
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .circleCrop()
-                    .into(holder.articleImage);
+        try {
+            if (!(currentArticle.getArticleImageURL().matches("null"))) {
+                Glide.with(mContext).load(currentArticle.getArticleImageURL())
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .circleCrop()
+                        .into(holder.articleImage);
+            }
+        } catch (Exception e) {
+
         }
+
 
         if (currentArticle.isBookmarked()) {
             holder.articleBookmarkImage.setImageResource(R.drawable.bookmark_checked);
