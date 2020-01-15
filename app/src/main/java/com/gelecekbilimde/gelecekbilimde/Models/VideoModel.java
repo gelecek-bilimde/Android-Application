@@ -13,7 +13,6 @@ public class VideoModel {
     private String videoImageURL;
     private String videoTitle;
     private String videoDate;
-    private String videoDesc;
     @NonNull
     @PrimaryKey
     private String videoURLId;
@@ -24,12 +23,11 @@ public class VideoModel {
 
     }
 
-    public VideoModel(String videoImageURL, String videoTitle, String videoDate, boolean bookmarked, String videoDesc, String videoURLId) {
+    public VideoModel(String videoImageURL, String videoTitle, String videoDate, boolean bookmarked, String videoURLId) {
         this.videoImageURL = videoImageURL;
         this.videoTitle = videoTitle;
         this.videoDate = videoDate;
         this.bookmarked = bookmarked;
-        this.videoDesc = videoDesc;
         this.videoURLId =videoURLId;
 
     }
@@ -41,10 +39,6 @@ public class VideoModel {
 
     public String getVideoURLId() {
         return videoURLId;
-    }
-
-    public String getVideoDesc() {
-        return videoDesc;
     }
 
     public String getVideoTitle() {

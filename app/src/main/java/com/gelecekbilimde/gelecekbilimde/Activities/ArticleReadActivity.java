@@ -10,6 +10,8 @@ import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.gelecekbilimde.gelecekbilimde.Models.RetrofitArticleModel;
+import com.gelecekbilimde.gelecekbilimde.Network.RetrofitArticleAPI;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -24,7 +26,9 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gelecekbilimde.gelecekbilimde.R;
 
@@ -33,6 +37,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ArticleReadActivity extends AppCompatActivity implements Html.ImageGetter {
 
@@ -43,17 +53,18 @@ public class ArticleReadActivity extends AppCompatActivity implements Html.Image
     Toolbar toolbar;
     AppBarLayout appBarLayout;
     Button exitBtn;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_read);
-        toolbar = (Toolbar) findViewById(R.id.article_read_toolbar);
+        toolbar =  findViewById(R.id.article_read_toolbar);
         appBarLayout = findViewById(R.id.article_read_appbar);
         setSupportActionBar(toolbar);
         imageView = findViewById(R.id.article_read_image);
         bodyTextView = findViewById(R.id.article_read_text);
         titleTxt = findViewById(R.id.article_read_title);
-        exitBtn = findViewById(R.id.video_quit_btn);
+        progressBar = findViewById(R.id.article_read_progress);
         getIncomingIntent();
 
 
@@ -72,30 +83,67 @@ public class ArticleReadActivity extends AppCompatActivity implements Html.Image
 
     private void getIncomingIntent() {
 
-        if (getIntent().hasExtra("ARTICLE_IMAGE_URL") && getIntent().hasExtra("ARTICLE_BODY") && getIntent().hasExtra("ARTICLE_TITLE")) {
+        if (getIntent().hasExtra("ARTICLE_IMAGE_URL") && getIntent().hasExtra("ARTICLE_TITLE") && getIntent().hasExtra("ARTICLE_ID")) {
             String imageUrl = getIntent().getStringExtra("ARTICLE_IMAGE_URL");
-            String body = getIntent().getStringExtra("ARTICLE_BODY");
+            int articleID = getIntent().getIntExtra("ARTICLE_ID",0);
             String title = getIntent().getStringExtra("ARTICLE_TITLE");
-            setImageAndBody(imageUrl, body, title);
+            progressBar.setVisibility(View.VISIBLE);
+            setImageAndBody(imageUrl,articleID,  title);
         }
 
     }
 
-    private void setImageAndBody(String imageUrl, String body, final String title) {
+    private void setImageAndBody(String imageUrl,int articleID, final String title) {
         Glide.with(this).load(imageUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
         //bodyTextView.setText(Html.fromHtml(body));
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout);
         collapsingToolbarLayout.setTitle(title);
 
-        titleTxt.setText(title);
 
-        body = body.replace("<figcaption>", "<br><figcaption>");
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://www.bilimtreni.com/wp-json/wp/v2/posts/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-        Spanned spanned = Html.fromHtml(body, this, null);
-        bodyTextView.setText(spanned);
-        bodyTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        RetrofitArticleAPI api = retrofit.create(RetrofitArticleAPI.class);
 
+        Call<RetrofitArticleModel> call = api.getPost(articleID);
 
+        call.enqueue(new Callback<RetrofitArticleModel>() {
+            @Override
+            public void onResponse(Call<RetrofitArticleModel> call, Response<RetrofitArticleModel> response) {
+
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(),"Hata: " + response.code(),Toast.LENGTH_LONG).show();
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                    RetrofitArticleModel model = response.body();
+                    String body = model.getContent().getRendered();
+                    body = body.replace("<figcaption>", "<br><figcaption>");
+
+                    Spanned spanned = Html.fromHtml(body, s -> {
+                        LevelListDrawable d = new LevelListDrawable();
+                        Drawable empty = getResources().getDrawable(R.drawable.empty_blue);
+                        d.addLevel(0, 0, empty);
+                        d.setBounds(0, 0, empty.getIntrinsicWidth(), empty.getIntrinsicHeight());
+
+                        new LoadImage().execute(s, d);
+
+                        return d;
+                    }, null);
+                    bodyTextView.setText(spanned);
+                    bodyTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
+                    titleTxt.setText(title);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<RetrofitArticleModel> call, Throwable t) {
+
+            }
+        });
 
         //top bar title
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {

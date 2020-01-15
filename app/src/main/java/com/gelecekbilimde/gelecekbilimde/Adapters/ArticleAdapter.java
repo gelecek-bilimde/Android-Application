@@ -123,8 +123,8 @@ public class ArticleAdapter extends PagedListAdapter<ArticleModel,ArticleAdapter
         holder.articleDate.setText(finalDateTime);
 
         try {
-            holder.articledescription.setText(Html.fromHtml(currentArticle.getArticleDesc()));
             holder.articleHeadline.setText(Html.fromHtml(currentArticle.getArticleTitle()));
+            holder.articledescription.setText(Html.fromHtml(currentArticle.getArticleDesc()));
         } catch (Exception e) {
             holder.articledescription.setText(" ");
             holder.articleHeadline.setText(" ");
@@ -138,8 +138,8 @@ public class ArticleAdapter extends PagedListAdapter<ArticleModel,ArticleAdapter
             public void onClick(View view) {
 
             Intent intent = new Intent(mContext, ArticleReadActivity.class);
+            intent.putExtra("ARTICLE_ID",currentArticle.getArticleId());
             intent.putExtra("ARTICLE_IMAGE_URL",currentArticle.getArticleImageURL());
-            intent.putExtra("ARTICLE_BODY",currentArticle.getArticleBody());
             intent.putExtra("ARTICLE_TITLE",currentArticle.getArticleTitle());
             mContext.startActivity(intent);
             }

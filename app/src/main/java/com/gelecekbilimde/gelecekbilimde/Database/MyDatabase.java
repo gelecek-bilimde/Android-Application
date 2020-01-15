@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.gelecekbilimde.gelecekbilimde.Models.ArticleModel;
 import com.gelecekbilimde.gelecekbilimde.Models.VideoModel;
 
-@Database(entities = {ArticleModel.class, VideoModel.class}, version = 17)
+@Database(entities = {ArticleModel.class, VideoModel.class}, version = 20)
 public abstract class MyDatabase extends RoomDatabase {
 
     private static MyDatabase myDatabaseInstance;

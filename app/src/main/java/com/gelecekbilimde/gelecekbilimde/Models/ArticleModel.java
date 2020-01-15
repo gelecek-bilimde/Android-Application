@@ -9,27 +9,22 @@ public class ArticleModel {
 
     @PrimaryKey(autoGenerate = true)
     private int articleId;
-    private String articleAuthor;
-    private String articleBody;
     private String articleDate;
-    private String articleDesc;
     private String articleImageURL;
     private String articleTitle;
+    private String articleDesc;
     private boolean bookmarked;
 
     @Ignore
     public ArticleModel() {
     }
 
-    public ArticleModel( String articleAuthor, String articleBody, String articleDate, String articleDesc, String articleImageURL, String articleTitle, boolean bookmarked) {
-        this.articleAuthor = articleAuthor;
-        this.articleBody = articleBody;
+    public ArticleModel(  String articleDate, String articleDesc, String articleImageURL, String articleTitle, boolean bookmarked) {
         this.articleDate = articleDate;
-        this.articleDesc = articleDesc;
         this.articleImageURL = articleImageURL;
         this.articleTitle = articleTitle;
         this.bookmarked = bookmarked;
-
+        this.articleDesc = articleDesc;
     }
 
     public int getArticleId() {
@@ -40,23 +35,6 @@ public class ArticleModel {
         this.articleId = articleId;
     }
 
-    public String getArticleAuthor() {
-        return articleAuthor;
-    }
-
-    public void setArticleAuthor(String articleAuthor) {
-        this.articleAuthor = articleAuthor;
-    }
-
-    public String getArticleBody() {
-        return articleBody;
-    }
-
-
-
-    public void setArticleBody(String articleBody) {
-        this.articleBody = articleBody;
-    }
 
     public String getArticleDate() {
         return articleDate;

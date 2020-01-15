@@ -34,7 +34,6 @@ public class VideoItemBoundaryCallback extends PagedList.BoundaryCallback<VideoM
     public void onItemAtEndLoaded(@NonNull VideoModel itemAtEnd) {
         super.onItemAtEndLoaded(itemAtEnd);
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Videos");
-        
 
         Query query = myRef.orderByChild("videoDate").endAt(itemAtEnd.getVideoDate()).limitToLast(3);
         query.addListenerForSingleValueEvent(new ValueEventListener() {

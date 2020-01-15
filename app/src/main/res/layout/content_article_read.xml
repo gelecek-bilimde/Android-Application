@@ -21,7 +21,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="25dp"
             android:maxLines="3"
-            android:text="asdasdasdasdasdasd"
+
             android:textColor="@color/white"
             android:textSize="25sp" />
 
@@ -31,7 +31,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
             android:fontFamily="@font/rubik"
-            android:text="@string/large_text"
             android:textColor="#ffffff" />
 
     </LinearLayout>

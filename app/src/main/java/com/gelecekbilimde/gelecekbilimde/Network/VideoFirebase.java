@@ -23,7 +23,7 @@ public class VideoFirebase {
 
     public VideoFirebase() {
         firebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = firebaseDatabase.getReference("Videos");
+        myRef = firebaseDatabase.getReference("/Videos");
     }
 
     public void getTenArticlesFromFirebase(final VideoRepository videoRepository) {
