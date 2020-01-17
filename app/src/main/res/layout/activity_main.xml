@@ -6,7 +6,7 @@
     android:background="#002547">
 
 
-    <com.gelecekbilimde.gelecekbilimde.CustomViewPager
+    <com.gelecekbilimde.teyyihan.CustomViewPager
         android:id="@+id/main_viewpager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

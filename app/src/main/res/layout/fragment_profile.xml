@@ -28,15 +28,24 @@
             android:src="@drawable/gelecekbilimdelogo"
             app:siBorderWidth="2dp"
             app:siBorderColor="@color/white"/>
+        <TextView
+            android:id="@+id/profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profile_image"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/profile_settings_text"
-            android:text="Account Settings"
+            android:text="Ayarlar"
             android:textSize="35dp"
             android:textColor="@color/white"
-            android:layout_below="@+id/profile_image"
+            android:layout_below="@+id/profile_name"
             android:background="@drawable/gray_border_bottom"/>
 
         <ListView

@@ -12,6 +12,7 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_article_read">ArticleReadActivity</string>
+    <string name="firebase_login_error">Bir sorun oluştu. Lütfen sonra deneyiniz</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
