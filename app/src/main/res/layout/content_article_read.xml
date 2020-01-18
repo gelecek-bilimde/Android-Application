@@ -21,7 +21,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="25dp"
             android:maxLines="3"
-
+            android:layout_marginBottom="10dp"
             android:textColor="@color/white"
             android:textSize="25sp" />
 
@@ -29,9 +29,13 @@
             android:id="@+id/article_read_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
+            android:layout_marginBottom="@dimen/text_margin"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:layout_marginTop="25dp"
             android:fontFamily="@font/rubik"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="16sp"/>
 
     </LinearLayout>
 

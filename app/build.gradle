@@ -2,13 +2,21 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('C:\\Users\\teyyi\\OneDrive\\Belgeler\\keys\\fuckingKey.jks')
+            storePassword '123456'
+            keyAlias 'fuckingKey'
+            keyPassword '123456'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
         manifestPlaceholders = [
                 appAuthRedirectScheme: 'io.identityserver.demo'
         ]
-        applicationId "com.gelecekbilimde.teyyihan"
+        applicationId "com.teyyihan.gelecekbilimde"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
@@ -22,8 +30,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }
@@ -77,9 +84,8 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$room_version"
 
     //Login
-    implementation 'com.firebaseui:firebase-ui-auth:5.0.0'
-    implementation 'com.twitter.sdk.android:twitter:3.1.1'
-    implementation 'com.twitter.sdk.android:twitter-core:3.1.1'
     implementation 'com.google.firebase:firebase-auth:19.2.0'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    implementation 'com.twitter.sdk.android:twitter:3.1.1'
+    implementation 'com.twitter.sdk.android:twitter-core:3.1.1'
 }

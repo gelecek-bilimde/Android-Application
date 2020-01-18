@@ -4,7 +4,6 @@
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
@@ -13,6 +12,8 @@
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_article_read">ArticleReadActivity</string>
     <string name="firebase_login_error">Bir sorun oluştu. Lütfen sonra deneyiniz</string>
+    <string name="twitter_consumer_key">LUdDTxenA7NMDVADCIGyNpfYi</string>
+    <string name="twitter_consumer_secret">3zyh6U6LkOgIVB5di7cy1sAsiDzsRJQoDwMu52dmmxDueXatqp</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
