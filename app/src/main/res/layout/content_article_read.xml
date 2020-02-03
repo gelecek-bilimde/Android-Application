@@ -20,8 +20,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="25dp"
-            android:maxLines="3"
             android:layout_marginBottom="10dp"
+            android:fontFamily="sans-serif"
+            android:maxLines="3"
             android:textColor="@color/white"
             android:textSize="25sp" />
 
@@ -34,8 +35,8 @@
             android:layout_marginEnd="@dimen/text_margin"
             android:layout_marginTop="25dp"
             android:fontFamily="@font/rubik"
-            android:textColor="#ffffff"
-            android:textSize="16sp"/>
+            android:textColor="#fcfcfc"
+            android:textSize="18sp"/>
 
     </LinearLayout>
 

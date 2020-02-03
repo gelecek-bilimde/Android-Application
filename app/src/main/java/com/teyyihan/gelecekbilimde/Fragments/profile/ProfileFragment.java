@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +44,8 @@ import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterSession;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class ProfileFragment extends Fragment {
 
@@ -51,6 +55,15 @@ public class ProfileFragment extends Fragment {
     private ImageView profileImage;
     private ArticleRepository articleRepository;
     private VideoRepository videoRepository;
+
+
+    String[] listViewTitles = new String[]{
+      "Bizi Destekle","Twitch","Youtube","Twitter","Instagram","Spotify","Geliştirici Bilgileri","Çıkış Yap"
+    };
+
+    int[] listViewImages = new int[]{
+      R.drawable.helpinghand,R.drawable.twitch,R.drawable.playbutton,R.drawable.twitter,R.drawable.instagram,R.drawable.spotify,R.drawable.developer,R.drawable.logout
+    };
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,25 +97,56 @@ public class ProfileFragment extends Fragment {
 
 
     private void setupSettingList(View view) {
+
+        List<HashMap<String,String>> aList = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            HashMap<String ,String> hm = new HashMap<>();
+            hm.put("ListTitle",listViewTitles[i]);
+            hm.put("ListImage",String.valueOf(listViewImages[i]));
+            aList.add(hm);
+        }
+
+        String[] from = {
+                "ListTitle","ListImage"
+        };
+        int[] to ={
+                R.id.settings_row_textView,R.id.settings_row_imageView
+        };
+
+        SimpleAdapter simpleAdapter = new SimpleAdapter(getContext(),aList,R.layout.settings_row_layout,from,to);
+
         ListView listView = view.findViewById(R.id.profile_settings_list);
 
-        ArrayList<String> settings = new ArrayList<>();
-        settings.add("Bizi Destekle");
-        settings.add("Çıkış Yap");
-
-        ArrayAdapter arrayAdapter = new ArrayAdapter(context,R.layout.simple_list_item_white,settings);
-        listView.setAdapter(arrayAdapter);
+        listView.setAdapter(simpleAdapter);
 
 
-        // TODO: SETTINGLER İÇİN ACTIVITY OLUŞTUR VE BUNUNLA BAĞLA
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i) {
                     case 0:
-                        Toast.makeText(getContext(),"Yakında!",Toast.LENGTH_LONG).show();
+                        goToURL("http://gelecekbilimde.net/destek");
                         break;
                     case 1:
+                        goToURL("https://www.twitch.tv/gelecekbilimde");
+                        break;
+                    case 2:
+                        goToURL("https://www.youtube.com/channel/UC03cpKIZShIWoSBhfVE5bog");
+                        break;
+                    case 3:
+                        goToURL("https://twitter.com/gelecekbilimde");
+                        break;
+                    case 4:
+                        goToURL("https://www.instagram.com/gelecekbilimde/");
+                        break;
+                    case 5:
+                        goToURL("https://open.spotify.com/show/7sOZipKq6PbX2REe9zqLml");
+                        break;
+                    case 6:
+                        goToURL("https://www.linkedin.com/in/teyyihan-aksu-14b563173");
+                        break;
+                    case 7:
 
                         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
                         alertBuilder.setMessage("Çıkmak istiyor musun?")
@@ -204,6 +248,12 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+    }
+
+    private void goToURL(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        startActivity(intent);
     }
 
     @Override

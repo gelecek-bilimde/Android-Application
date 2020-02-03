@@ -201,6 +201,8 @@ public class LoginActivity extends AppCompatActivity {
         CurrentUserInfo.userInfo = newUser;
     }
 
+
+    // for google
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);

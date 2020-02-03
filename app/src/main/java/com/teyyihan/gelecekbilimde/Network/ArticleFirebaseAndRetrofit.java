@@ -59,10 +59,9 @@ public class ArticleFirebaseAndRetrofit {
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     String imageURL = dataSnapshot.getValue(String.class);
 
-
-
                                     ArticleModel article = new ArticleModel(each.getId(),each.getDate(),each.getExcerpt().getRendered(),
                                             imageURL,each.getTitle().getRendered(),false,page);
+
                                     articleRepository.insertArticle(article);
                                     ArticleViewModel.isLoading.postValue(false);
                                 }
