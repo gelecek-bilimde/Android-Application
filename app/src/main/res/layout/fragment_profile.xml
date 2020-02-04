@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,54 +7,62 @@
     tools:context=".Fragments.profile.ProfileFragment"
     android:orientation="vertical">
 
-       <RelativeLayout
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:background="#002547"
-           android:padding="20dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#002547"
+            android:padding="20dp">
 
 
-           <com.github.siyamed.shapeimageview.CircularImageView
-               android:id="@+id/profile_image"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_alignParentStart="true"
-               android:layout_alignParentTop="true"
-               android:layout_marginStart="75dp"
-               android:layout_marginTop="25dp"
-               android:layout_marginEnd="75dp"
-               android:layout_marginBottom="25dp"
-               android:src="@drawable/gelecekbilimdelogo"
-               app:siBorderColor="@color/white"
-               app:siBorderWidth="2dp" />
+            <com.github.siyamed.shapeimageview.CircularImageView
+                android:id="@+id/profile_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="75dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="75dp"
+                android:layout_marginBottom="25dp"
+                android:src="@drawable/gelecekbilimdelogo"
+                app:siBorderColor="@color/white"
+                app:siBorderWidth="2dp" />
 
-           <TextView
-               android:id="@+id/profile_name"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_below="@id/profile_image"
-               android:layout_centerHorizontal="true"
-               android:layout_marginBottom="30dp"
-               android:textColor="#FFFFFF"
-               android:textSize="20sp" />
+            <TextView
+                android:id="@+id/profile_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/profile_image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="30dp"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
 
-           <TextView
-               android:id="@+id/profile_settings_text"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_below="@+id/profile_name"
-               android:background="@drawable/gray_border_bottom"
-               android:text="Ayarlar"
-               android:textColor="@color/white"
-               android:textSize="35dp" />
+            <TextView
+                android:id="@+id/profile_settings_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profile_name"
+                android:background="@drawable/gray_border_bottom"
+                android:text="Ayarlar"
+                android:textColor="@color/white"
+                android:textSize="35dp" />
 
-           <ListView
-               android:id="@+id/profile_settings_list"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:layout_below="@id/profile_settings_text" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/profile_settings_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/profile_settings_text"
+                tools:listitem="@layout/settings_row_layout"/>
 
-       </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
 
 
-</LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>

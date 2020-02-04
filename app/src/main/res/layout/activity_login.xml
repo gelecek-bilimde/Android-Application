@@ -36,7 +36,7 @@
             android:layout_marginTop="25dp"
             android:layout_marginEnd="25dp"
             android:gravity="center"
-            android:text="bilime\nhoşgeldiniz"
+            android:text="bilime\nhoşgeldin"
             android:textColor="#FFFFFF"
             android:textSize="50sp"
             app:fontFamily="sans-serif-condensed-light"
