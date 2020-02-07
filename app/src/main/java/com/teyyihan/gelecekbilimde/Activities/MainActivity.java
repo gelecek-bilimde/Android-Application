@@ -141,4 +141,8 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle(title);
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
 }

@@ -25,8 +25,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.teyyihan.gelecekbilimde.Activities.LoginActivity"
-            android:screenOrientation="portrait"
-            android:noHistory="true">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -105,6 +105,7 @@ public class VideoAdapter extends PagedListAdapter<VideoModel,VideoAdapter.Video
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .centerCrop()
                     .apply(new RequestOptions().override(1000, 550))
+                    .placeholder(R.drawable.youtube_logo_min)
                     .into(holder.videoThumbnail);
 
             holder.videoTitle.setText(Html.fromHtml(selectedVideo.getVideoTitle()));
