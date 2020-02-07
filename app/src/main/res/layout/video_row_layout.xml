@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/video_cardview"
+    android:background="@drawable/gray_border_bottom"
+    >
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp">
+
+
+        <com.github.siyamed.shapeimageview.RoundedImageView
+            android:id="@+id/video_thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="25dp"
+            android:src="@drawable/video"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:siRadius="5dp" />
+
+        <ImageView
+            android:id="@+id/video_publisher_logo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="25dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/video_thumbnail"
+            app:srcCompat="@drawable/gelecekbilimdelogo" />
+
+
+        <TextView
+            android:id="@+id/video_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Video Taaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toStartOf="@+id/video_bookmark_logo"
+            app:layout_constraintStart_toEndOf="@id/video_publisher_logo"
+            app:layout_constraintTop_toBottomOf="@+id/video_thumbnail"
+            app:layout_constraintTop_toTopOf="@id/video_publisher_logo" />
+
+        <TextView
+            android:id="@+id/video_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11.03.1999"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintTop_toBottomOf="@id/video_title"
+            app:layout_constraintEnd_toEndOf="@id/video_bookmark_logo"/>
+
+        <ImageView
+            android:id="@+id/video_bookmark_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/video_publisher_logo"
+            app:srcCompat="@drawable/bookmark_unchecked" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</RelativeLayout>
