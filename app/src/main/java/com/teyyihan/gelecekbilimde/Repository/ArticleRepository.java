@@ -33,11 +33,16 @@ public class ArticleRepository {
     public void insertArticle(ArticleModel article) {
         new InsertArticleAsync(dao).execute(article);
     }
-    String TAG = "teooo";
+
     public void updateArticle(ArticleModel article) {
-        Log.d(TAG, "updateArticle: ");
         new UpdateArticleAsync(dao).execute(article);
     }
+
+    public void updateArticleImage(String imageURL,int articleID) {
+        new UpdateArticleImageAsync(dao).execute(new ArticleWithImage(imageURL,articleID));
+    }
+
+
     public void deleteArticle(ArticleModel article) {
         new DeleteArticleAsync(dao).execute(article);
     }
@@ -86,6 +91,20 @@ public class ArticleRepository {
             return null;
         }
     }
+
+    private static class UpdateArticleImageAsync  extends AsyncTask<ArticleWithImage,Void,Void>{
+        private ArticleDao dao;
+
+        public UpdateArticleImageAsync(ArticleDao articleDao){
+            this.dao = articleDao;
+        }
+
+        @Override
+        protected Void doInBackground(ArticleWithImage... articleModels) {
+            dao.updateArticleImage(articleModels[0].imageURL,articleModels[0].id);
+            return null;
+        }
+    }
     private static class DeleteArticleAsync  extends AsyncTask<ArticleModel,Void,Void>{
         private ArticleDao dao;
 
@@ -110,6 +129,32 @@ public class ArticleRepository {
         protected Void doInBackground(Void... voids) {
             dao.deleteAllArticles();
             return null;
+        }
+    }
+
+    class ArticleWithImage{
+        String imageURL;
+        int id;
+
+        public ArticleWithImage(String imageURL, int id) {
+            this.imageURL = imageURL;
+            this.id = id;
+        }
+
+        public String getImageURL() {
+            return imageURL;
+        }
+
+        public void setImageURL(String imageURL) {
+            this.imageURL = imageURL;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
         }
     }
 

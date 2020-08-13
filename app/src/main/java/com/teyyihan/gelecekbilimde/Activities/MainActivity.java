@@ -2,11 +2,17 @@ package com.teyyihan.gelecekbilimde.Activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.teyyihan.gelecekbilimde.Adapters.BottomNavViewPagerAdapter;
 import com.teyyihan.gelecekbilimde.CustomViewPager;
 import com.teyyihan.gelecekbilimde.Fragments.profile.ProfileFragment;

@@ -3,7 +3,9 @@ package com.teyyihan.gelecekbilimde.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -49,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "Teooo";
     private static final int RC_SIGN_IN = 9001;
     private static final int TWITTER_SIGN_IN = 123;
+    private boolean isNotificationOpened = false;
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
@@ -127,19 +130,36 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
 
-            Map<String,String> newUser = new HashMap<>();
-            newUser.put("photoURL",String.valueOf(currentUser.getPhotoUrl()));
-            newUser.put("email",currentUser.getEmail());
-            newUser.put("displayName",currentUser.getDisplayName());
-            newUser.put("providerID",currentUser.getProviderId());
-            saveUserToStaticVars(newUser);
+        if(getIntent().hasExtra("url") && !isNotificationOpened){
 
-            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+
+            findViewById(R.id.twitter_login_btn).setVisibility(View.GONE);
+            findViewById(R.id.google_sign_in_btn).setVisibility(View.GONE);
+            findViewById(R.id.textView).setVisibility(View.GONE);
+
+            isNotificationOpened = true;
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.setData(Uri.parse((String) getIntent().getExtras().get("url")));
+            startActivity(intent);
+        }else{
+            // Check if user is signed in (non-null) and update UI accordingly.
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            if (currentUser != null) {
+
+                Map<String,String> newUser = new HashMap<>();
+                newUser.put("photoURL",String.valueOf(currentUser.getPhotoUrl()));
+                newUser.put("email",currentUser.getEmail());
+                newUser.put("displayName",currentUser.getDisplayName());
+                newUser.put("providerID",currentUser.getProviderId());
+                saveUserToStaticVars(newUser);
+
+                startActivity(new Intent(LoginActivity.this,MainActivity.class));
+            }
         }
+
+
     }
 
     @Override

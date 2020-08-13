@@ -7,9 +7,8 @@
     tools:context=".Activities.YoutubeVideoActivity"
     android:background="#003366">
 
-    <view
+    <com.google.android.youtube.player.YouTubePlayerView
         android:id="@+id/youtube_video_player"
-        class="com.google.android.youtube.player.YouTubePlayerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"/>

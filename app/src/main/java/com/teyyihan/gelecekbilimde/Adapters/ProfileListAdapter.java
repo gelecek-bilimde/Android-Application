@@ -40,7 +40,7 @@ public class ProfileListAdapter extends RecyclerView.Adapter<ProfileListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ProfileListViewHolder holder, int position) {
         String title = mData.get(position).getTitle();
-        int image = mData.get(position).getImage();
+        int image = mData.get(position).getIcon();
 
         holder.myTextView.setText(title);
         holder.mImageView.setImageResource(image);

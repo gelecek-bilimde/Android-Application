@@ -34,7 +34,7 @@ public class ArticleFirebaseAndRetrofit {
     public void getTenArticlesfromFirebaseAndRetrofit(final ArticleRepository articleRepository, int page) {
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://www.bilimtreni.com/wp-json/wp/v2/")
+                .baseUrl("https://www.gelecekbilimde.net/wp-json/wp/v2/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -52,6 +52,9 @@ public class ArticleFirebaseAndRetrofit {
 
                         for (RetrofitArticleModel each: response.body()) {
 
+                            ArticleModel article = new ArticleModel(each.getId(),each.getDate(),each.getExcerpt().getRendered(),
+                                    "null",each.getTitle().getRendered(),false,page);
+                            articleRepository.insertArticle(article);
 
                             //FIREBASE
                             myRef.child(String.valueOf(each.getId())).child("articleImageURL").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -59,10 +62,8 @@ public class ArticleFirebaseAndRetrofit {
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     String imageURL = dataSnapshot.getValue(String.class);
 
-                                    ArticleModel article = new ArticleModel(each.getId(),each.getDate(),each.getExcerpt().getRendered(),
-                                            imageURL,each.getTitle().getRendered(),false,page);
+                                    articleRepository.updateArticleImage(imageURL,each.getId());
 
-                                    articleRepository.insertArticle(article);
                                     ArticleViewModel.isLoading.postValue(false);
                                 }
 

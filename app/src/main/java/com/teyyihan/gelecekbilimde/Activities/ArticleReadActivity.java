@@ -56,11 +56,12 @@ public class ArticleReadActivity extends AppCompatActivity implements Html.Image
     ProgressBar progressBar;
     String articleURL;
     FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_read);
-        toolbar =  findViewById(R.id.article_read_toolbar);
+        toolbar = findViewById(R.id.article_read_toolbar);
         appBarLayout = findViewById(R.id.article_read_appbar);
         setSupportActionBar(toolbar);
         imageView = findViewById(R.id.article_read_image);
@@ -68,7 +69,6 @@ public class ArticleReadActivity extends AppCompatActivity implements Html.Image
         titleTxt = findViewById(R.id.article_read_title);
         progressBar = findViewById(R.id.article_read_progress);
         getIncomingIntent();
-
 
 
         fab = findViewById(R.id.fab);
@@ -86,28 +86,26 @@ public class ArticleReadActivity extends AppCompatActivity implements Html.Image
     }
 
 
-
     private void getIncomingIntent() {
 
         if (getIntent().hasExtra("ARTICLE_IMAGE_URL") && getIntent().hasExtra("ARTICLE_TITLE") && getIntent().hasExtra("ARTICLE_ID")) {
             String imageUrl = getIntent().getStringExtra("ARTICLE_IMAGE_URL");
-            int articleID = getIntent().getIntExtra("ARTICLE_ID",0);
+            int articleID = getIntent().getIntExtra("ARTICLE_ID", 0);
             String title = getIntent().getStringExtra("ARTICLE_TITLE");
             progressBar.setVisibility(View.VISIBLE);
-            setImageAndBody(imageUrl,articleID,  title);
+            setImageAndBody(imageUrl, articleID, title);
         }
 
     }
 
-    private void setImageAndBody(String imageUrl,int articleID, final String title) {
+    private void setImageAndBody(String imageUrl, int articleID, final String title) {
         Glide.with(this).load(imageUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
         //bodyTextView.setText(Html.fromHtml(body));
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout);
         collapsingToolbarLayout.setTitle(title);
 
-
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://www.bilimtreni.com/wp-json/wp/v2/posts/")
+                .baseUrl("https://www.gelecekbilimde.net/wp-json/wp/v2/posts/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -120,7 +118,7 @@ public class ArticleReadActivity extends AppCompatActivity implements Html.Image
             public void onResponse(Call<RetrofitArticleBodyModel> call, Response<RetrofitArticleBodyModel> response) {
 
                 if (!response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(),"Hata: " + response.code(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Hata: " + response.code(), Toast.LENGTH_LONG).show();
                 } else {
                     progressBar.setVisibility(View.GONE);
                     RetrofitArticleBodyModel model = response.body();
@@ -142,7 +140,7 @@ public class ArticleReadActivity extends AppCompatActivity implements Html.Image
                     bodyTextView.setText(spanned);
                     bodyTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
-                    titleTxt.setText(title);
+                    titleTxt.setText(Html.fromHtml(title));
                 }
 
             }

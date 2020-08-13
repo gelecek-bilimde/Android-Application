@@ -19,6 +19,9 @@ public interface ArticleDao {
     @Update
     void updateArticle(ArticleModel article);
 
+    @Query("UPDATE article_table SET articleImageURL = :imageURL WHERE articleId = :articleID")
+    void updateArticleImage(String imageURL,int articleID);
+
     @Delete
     void deleteArticle(ArticleModel article);
 

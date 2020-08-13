@@ -113,6 +113,7 @@ public class ProfileFragment extends Fragment implements ProfileListAdapter.Item
         settings.add(new SettingModel("Twitter",R.drawable.twitter));
         settings.add(new SettingModel("Instagram",R.drawable.instagram));
         settings.add(new SettingModel("Spotify",R.drawable.spotify));
+        settings.add(new SettingModel("Uygulamayı değerlendir",R.drawable.rate_app));
         settings.add(new SettingModel("Geliştirici Bilgileri",R.drawable.developer));
         settings.add(new SettingModel("Çıkış Yap",R.drawable.logout));
 
@@ -277,10 +278,14 @@ public class ProfileFragment extends Fragment implements ProfileListAdapter.Item
                     case 5:
                         goToURL("https://open.spotify.com/show/7sOZipKq6PbX2REe9zqLml");
                         break;
+
                     case 6:
-                        goToURL("https://www.linkedin.com/in/teyyihan-aksu-14b563173");
+                        goToURL("https://play.google.com/store/apps/details?id=com.teyyihan.gelecekbilimde");
                         break;
                     case 7:
+                        goToURL("https://www.linkedin.com/in/teyyihan-aksu-14b563173");
+                        break;
+                    case 8:
 
                         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
                         alertBuilder.setMessage("Çıkmak istiyor musun?")

@@ -30,6 +30,7 @@ public class VideoFirebase {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 VideoModel videoModel;
                 if (dataSnapshot.hasChildren()) {
+
                     for (DataSnapshot each: dataSnapshot.getChildren()) {
                         videoModel= each.getValue(VideoModel.class);
                         videoRepository.insertVideo(videoModel);

@@ -158,14 +158,26 @@ public class VideoAdapter extends PagedListAdapter<VideoModel,VideoAdapter.Video
     private String calculateDate(String videoDate) {
 
         Date date= null;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        String sdf = " ";
         try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");   // 2019-12-26T12:00:08.000Z
             date = format.parse(videoDate.replaceAll("Z$", "+0000"));
             System.out.println(date);
+            sdf = new SimpleDateFormat("dd/MM/yyyy").format(date);
         } catch (ParseException e) {
+
+            try {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");  //  2020-05-14T10:08:11Z
+                date = format.parse(videoDate.replaceAll("Z$", "+0000"));
+                System.out.println(date);
+                sdf = new SimpleDateFormat("dd/MM/yyyy").format(date);
+            } catch (Exception ex) {
+
+            }
+
             e.printStackTrace();
         }
-        String sdf = new SimpleDateFormat("dd/MM/yyyy").format(date);
+
 
 
         return sdf;

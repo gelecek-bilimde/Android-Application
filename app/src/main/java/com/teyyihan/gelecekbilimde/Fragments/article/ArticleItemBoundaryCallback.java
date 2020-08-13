@@ -31,7 +31,6 @@ public class ArticleItemBoundaryCallback extends PagedList.BoundaryCallback<Arti
             page = itemAtEnd.getPage()+1;
         }
 
-        System.out.println("teooo"+itemAtEnd.getPage());
        repository.getTenArticlesfromFirebaseAndRetrofit(page);
 
         /*

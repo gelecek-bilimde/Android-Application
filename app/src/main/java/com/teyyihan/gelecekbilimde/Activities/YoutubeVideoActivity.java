@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.teyyihan.gelecekbilimde.R;
-import com.teyyihan.gelecekbilimde.YoutubeAPI.YoutubeAPI;
+import com.teyyihan.gelecekbilimde.YoutubeAPI;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -37,7 +37,7 @@ public class YoutubeVideoActivity extends YouTubeBaseActivity {
         };
 
 
-        youTubePlayerView.initialize(YoutubeAPI.youtbeAndroidAPI,listener);
+        youTubePlayerView.initialize(YoutubeAPI.api,listener);
 
 
     }

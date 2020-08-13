@@ -49,7 +49,18 @@ public class ArticleAdapter extends PagedListAdapter<ArticleModel,ArticleAdapter
         @Override
         public boolean areContentsTheSame(@NonNull ArticleModel oldItem, @NonNull ArticleModel newItem) {
 
-            return oldItem.getArticleTitle().equals(newItem.getArticleTitle()) && oldItem.isBookmarked()==newItem.isBookmarked();
+            if(oldItem.getArticleImageURL()!= null && newItem.getArticleImageURL()!=null){
+                return
+                        oldItem.getArticleTitle().equals(newItem.getArticleTitle()) &&
+                                oldItem.isBookmarked()==newItem.isBookmarked() &&
+                                oldItem.getArticleImageURL().equals(newItem.getArticleImageURL());
+            }else {
+                return
+                        oldItem.getArticleTitle().equals(newItem.getArticleTitle()) &&
+                                oldItem.isBookmarked()==newItem.isBookmarked();
+            }
+
+
         }
     };
 
@@ -107,14 +118,21 @@ public class ArticleAdapter extends PagedListAdapter<ArticleModel,ArticleAdapter
 
 
         try {
-            if (!(currentArticle.getArticleImageURL().matches("null"))) {
+            if ( currentArticle.getArticleImageURL()!=null && !(currentArticle.getArticleImageURL().matches("null"))) {
+                System.out.println("teooo wtfff"+currentArticle.getArticleId());
                 Glide.with(mContext).load(currentArticle.getArticleImageURL())
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .circleCrop()
+                        .placeholder(R.drawable.gelecekbilimdelogo)
+                        .into(holder.articleImage);
+            }else {
+                System.out.println("teooo wtfff"+currentArticle.getArticleId());
+                Glide.with(mContext).load(R.drawable.gelecekbilimdelogo)
                         .circleCrop()
                         .into(holder.articleImage);
             }
         } catch (Exception e) {
-
+            System.out.println("teoooo tuttuttt"+e.getLocalizedMessage());
         }
 
 
